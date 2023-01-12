@@ -1,11 +1,12 @@
 #include <iostream>
 #include <vector>
 #include "Tabella_attacco.h"
-#include "Ship.h"
 
 Tab_att::Tab_att()
 {   int const righe = 13;
     int const colonne = 13;
+    int const start_righe = 0, end_righe = 12;
+    int const start_colonne = 1, end_colonne = 13;
     std::string inizio = "";
     matrix.resize(righe, std::vector<std::string>(colonne, inizio));
     matrix[0][0] = "A";
@@ -32,8 +33,8 @@ Tab_att::Tab_att()
     matrix[12][10] = "10";
     matrix[12][11] = "11";
     matrix[12][12] = "12";
-    for(int i = 0; i < 12; i++)
-    {   for(int j = 1; j < 13; j++)
+    for(int i = start_righe; i < end_righe; i++)
+    {   for(int j = start_colonne; j < end_colonne; j++)
             matrix[i][j] = " ";
     }
 }
@@ -55,16 +56,33 @@ std::string Tab_att::getTab()
 }
 
 void Tab_att::clearY()
-{   for(int i = 0; i < 12; i++)
-    {   for(int j = 1; j < 13; j++)
-        {   if(matrix[i][j] == "Y")
-                matrix[i][j] == " ";
+{   int const start_righe = 0, end_righe = 12;
+    int const start_colonne = 1, end_colonne = 13;
+    for(int i = start_righe; i < end_righe; i++)
+    {   for(int j = start_colonne; j < end_colonne; j++)
+        {   if(matrix[i][j] == " Y")
+                matrix[i][j] = " ";
+        }   
+    }
+}
+
+void Tab_att::clearXO()
+{   int const start_righe = 0, end_righe = 12;
+    int const start_colonne = 1, end_colonne = 13;
+    for(int i = start_righe; i < end_righe; i++)
+    {   for(int j = start_colonne; j < end_colonne; j++)
+        {   if(matrix[i][j] == " X" || matrix[i][j] == " O")
+                matrix[i][j] = " ";
         }   
     }
 }
 
 void Tab_att::insert(int r, int c, std::string s)
-{   std::string available_characters = "OYX";
+{   int const start_righe = 0, end_righe = 12;
+    int const start_colonne = 1, end_colonne = 13;
+    if(r < start_righe || r > end_righe || c < start_colonne || c > end_colonne)
+        throw Invalid_Matrix_Position();
+    std::string available_characters = "OYX";
     if(available_characters.find(s) != std::string::npos)
         matrix[r][c] = " " + s;
     else

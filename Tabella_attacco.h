@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include "Ship.h"
 
 class Tab_att
 {   public:
@@ -11,6 +10,7 @@ class Tab_att
         std::string getTab();
         class Invalid_Matrix_Position{};
         void clearY();
+        void clearXO();
         void insert(int r, int c, std::string s);
         class Invalid_Character{};
     private:
