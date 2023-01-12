@@ -177,6 +177,12 @@ void Tab_dif::initTab()
 
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "C", dim_coraz);
         std::vector<int> celle_occupate_tmp{riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        for(int k=riga_poppa_int; k<=riga_prua_int; k++)
+            { for(int j=colonna_poppa; j<=colonna_prua; j++)
+                {  std::cout<<"Le celle occupate sono riga: "<< k << " e colonna: "<< j <<"\n"; 
+                }
+        }
+            
         std::cout<< celle_occupate_tmp.at(0) << " " << celle_occupate_tmp.at(1) << " " << celle_occupate_tmp.at(2) <<" "<< celle_occupate_tmp.at(3) <<std::endl;
         
 //trovo le coordinate del centro della corazzata
@@ -229,6 +235,11 @@ void Tab_dif::initTab()
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "S", dim_supp);
         std::vector<int> celle_occupate_tmp{riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        for(int k=riga_poppa_int; k<=riga_prua_int; k++)
+            { for(int j=colonna_poppa; j<=colonna_prua; j++)
+                {  std::cout<<"Le celle occupate sono riga: "<< k << " e colonna: "<< j <<"\n"; 
+                }
+        }
         std::cout<< celle_occupate_tmp.at(0) << " " << celle_occupate_tmp.at(1) << " " << celle_occupate_tmp.at(2) <<" "<< celle_occupate_tmp.at(3) <<std::endl;
         
 //trovo le coordinate del centro della nave di supporto
@@ -280,6 +291,11 @@ void Tab_dif::initTab()
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "E", dim_sott);
         std::vector<int> celle_occupate_tmp{riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        for(int k=riga_poppa_int; k<=riga_prua_int; k++)
+            { for(int j=colonna_poppa; j<=colonna_prua; j++)
+                {  std::cout<<"Le celle occupate sono riga: "<< k << " e colonna: "<< j <<"\n"; 
+                }
+        }
         std::cout<< celle_occupate_tmp.at(0) << " " << celle_occupate_tmp.at(1) << " " << celle_occupate_tmp.at(2) <<" "<< celle_occupate_tmp.at(3) <<std::endl;
         
               
