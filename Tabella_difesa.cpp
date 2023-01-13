@@ -2,7 +2,7 @@
 #include <vector>
 #include <cstring>
 #include "Tabella_difesa.h"
-#include "battaglianavale1.cpp"
+#include "Ship.h"
 
 const static int ASCII_A = 65;
 const static int ASCII_a = 97;
@@ -203,15 +203,27 @@ void Tab_dif::initTab()
         
 //creo le 3 corazzate
         
-        if(i == 0)
-        {   Corazzata c1 = Corazzata(riga_centrale, colonna_centrale);
-        }
-        if(i == 1)
-        {   Corazzata c2 = Corazzata(riga_centrale, colonna_centrale);
-        }
-        if(i == 2)
-        {   Corazzata c3 = Corazzata(riga_centrale, colonna_centrale);
-        }
+        if(i == 0){
+                Ship c1(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                if (riga_poppa_int == riga_prua_int){
+                    c1.setOrizzontale();
+                    std::cout << "La corazzata 1 è piazzata\n";
+                    std::cout<< c1.getOrizzontale() <<std::endl;
+                }
+            } else if(i == 1)
+                {   
+                    Ship c2(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    if (riga_poppa_int == riga_prua_int){
+                        c2.setOrizzontale();
+                        std::cout << "La corazzata 2 è piazzata\n";
+                    }
+                } else if(i == 2){
+                    Ship c3(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    if (riga_poppa_int == riga_prua_int){
+                            c3.setOrizzontale();
+                            std::cout << "La corazzata 3 è piazzata\n";
+                        }
+            }
     }
     for(int i = 0; i < supp; i++)
     {   std::string poppa = "", prua = "";
@@ -247,17 +259,27 @@ void Tab_dif::initTab()
             riga_centrale = (riga_poppa_int + riga_prua_int) / 2;
         }
         
-/*creo le 3 navi di supporto (manca da implementare la f virtuale)
+/*creo le 3 navi di supporto (manca da implementare la f virtuale)*/
         
-        if(i == 0)
-        {   NaveSupporto s1 = NaveSupporto(riga_centrale, colonna_centrale);
-        }
-        if(i == 1)
-        {   NaveSupporto s2 = NaveSupporto(riga_centrale, colonna_centrale);
-        }
-        if(i == 2)
-        {   NaveSupporto s3 = NaveSupporto(riga_centrale, colonna_centrale);
-        }*/
+        if(i == 0){
+                Ship s1(ShipType::NAVE_SUPPORTO, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                if (riga_poppa_int == riga_prua_int){
+                    s1.setOrizzontale();
+                    std::cout << "La supporto 1 è piazzata\n";
+                }
+            } else if(i == 1)
+                {   Ship s2(ShipType::NAVE_SUPPORTO, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    if (riga_poppa_int == riga_prua_int){
+                        s2.setOrizzontale();
+                        std::cout << "La supporto 2 è piazzata\n";
+                    }
+                } else if(i == 2){
+                    Ship s3(ShipType::NAVE_SUPPORTO, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    if (riga_poppa_int == riga_prua_int){
+                            s3.setOrizzontale();
+                            std::cout << "La supporto 3 è piazzata\n";
+                        }
+            } 
     }
     for(int i = 0; i < sott; i++)
     {   std::string poppa = "", prua = "";
@@ -282,21 +304,30 @@ void Tab_dif::initTab()
         std::cout<< celle_occupate_tmp.at(0) << " " << celle_occupate_tmp.at(1) << " " << celle_occupate_tmp.at(2) <<" "<< celle_occupate_tmp.at(3) <<std::endl;
         
               
-/*creo i 2 sottomarini (manca da implementare la f virtuale)
+/*creo i 2 sottomarini (manca da implementare la f virtuale)*/
 
         int riga_centrale = riga_poppa_int;
         int colonna_centrale = coord_poppa.getColonna();
         if(i == 0)
-        {   SottomarinoEsplorazione s1 = SottomarinoEsploorazione(riga_centrale, colonna_centrale);
-        }
-        if(i == 1)
-        {   SottomarinoEsplorazione s2 = SottomarinoEsploorazione(riga_centrale, colonna_centrale);
-        }*/
+        {   Ship e1(ShipType::SOTTOMARINO, riga_centrale ,colonna_centrale, true, celle_occupate_tmp);
+            if (riga_poppa_int == riga_prua_int)
+            {
+                e1.setOrizzontale();
+                std::cout << "Il sottomarino 1 è piazzato\n";
+            }
+        }else if(i == 1)
+            {   Ship e2(ShipType::SOTTOMARINO, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                if (riga_poppa_int == riga_prua_int)
+                {
+                    e2.setOrizzontale();
+                    std::cout << "Il sottomarino 2 è piazzato\n";
+                }
+            }
     }
 }
 
-void Tab_dif::delete_ships()
-{   int const start_righe = 0, end_righe = 12, start_colonne = 1, end_colonne = 13;
+void Tab_dif::delete_ships(){
+    int const start_righe = 0, end_righe = 12, start_colonne = 1, end_colonne = 13;
     for(int i = start_righe; i < end_righe; i++)
     {   for(int j = start_colonne; j < end_colonne; j++)
         {   if(matrix[i][j] == " e")

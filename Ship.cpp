@@ -81,7 +81,7 @@ bool Ship::IsDestroyed() const {
 }
 
 void Ship::setOrizzontale() const {
-  orizzontale == true;
+  orizzontale == 1;
 }
 
 int Ship::getColonnaInizio(){
@@ -100,7 +100,9 @@ int Ship::getRigaFine(){
   return rigaFine;
 }
 
-
+bool Ship::getOrizzontale() const{
+  return orizzontale;
+}
 
 /*
 void Ship::moveShip(Ship &ship, int middleX, int middleY, Tab_dif const& tabdif) {

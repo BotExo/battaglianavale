@@ -48,6 +48,7 @@ class Ship {
         int GetSize() const;
         int GetNumHits() const;
         void setOrizzontale() const;
+        bool getOrizzontale() const;
         //void moveShip(Ship &ship, int middleX, int middleY, Tab_dif const& tabella_difesa);
         
 
