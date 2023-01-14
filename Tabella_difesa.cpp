@@ -150,7 +150,7 @@ void Tab_dif::Fill(int riga_poppa, int riga_prua, int colonna_poppa, int colonna
             throw Invalid_Matrix_Position();
 }
 
-Ship Tab_dif::initTab(Ship navee)
+void Tab_dif::initTab(Ship nave1, Ship nave2, Ship nave3)
 {   
     const int coraz = 3;
     const int supp = 3;
@@ -205,15 +205,17 @@ Ship Tab_dif::initTab(Ship navee)
 //creo le 3 corazzate
         
         if(i == 0){
-                navee.setType(ShipType::SOTTOMARINO);
-                navee.setRigaCentrale(8);
-                navee.setColonnaCentrale(8);
+                nave1.setType(ShipType::SOTTOMARINO);
+                nave1.setRigaCentrale(riga_centrale);
+                std::cout<< "la riga centrale dopo il setter vale"<< std::endl;
+                std::cout<< nave1.getRigaCentrale()<< std::endl;
+                nave1.setColonnaCentrale(8);
                 if (riga_poppa_int == riga_prua_int){
-                    navee.setOrizzontale();
+                    nave1.setOrizzontale();
                     std::cout << "La corazzata 1 è piazzata\n";
                 }
                 
-                std::cout<< navee.getOrizzontale() << " " << riga_centrale << " " << colonna_centrale<< std::endl;
+                std::cout<< nave1.getOrizzontale() << " " << riga_centrale << " " << colonna_centrale<< std::endl;
             } else if(i == 1)
                 {   
                     //Ship c2(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
@@ -333,7 +335,6 @@ Ship Tab_dif::initTab(Ship navee)
                 }
             }
     }*/
-    return navee;
 }
 
 void Tab_dif::delete_ships(){

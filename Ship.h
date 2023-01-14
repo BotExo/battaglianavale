@@ -12,15 +12,7 @@ enum class ShipType {
 
 
 class Ship {
-    private:
-        char colonnaInizio;
-        int rigaInizio;
-        char colonnaFine;
-        int rigaFine;
-        int riga;
-        int size_;
-        int health_;
-        
+    
     public:
         Ship();
         //Ship(ShipType type, char colonnaInizio, int rigaInizio, char colonnaFine, int rigaFine, bool orizzontale, std::vector<int> celleoccupate);
@@ -50,6 +42,17 @@ class Ship {
         int ColonnaCentrale;
         ShipType type_;
         //void moveShip(Ship &ship, int middleX, int middleY, Tab_dif const& tabella_difesa);
+
+
+    private:
+        char colonnaInizio;
+        int rigaInizio;
+        char colonnaFine;
+        int rigaFine;
+        int riga;
+        int size_;
+        int health_;
+        
         
 
 };
