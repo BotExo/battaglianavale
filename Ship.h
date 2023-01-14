@@ -24,16 +24,16 @@ class Ship {
         
     public:
         Ship();
-        Ship(ShipType type, char colonnaInizio, int rigaInizio, char colonnaFine, int rigaFine, bool orizzontale, std::vector<int> celleoccupate);
-        Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontale, std::vector<int> celleoccupate);
+        //Ship(ShipType type, char colonnaInizio, int rigaInizio, char colonnaFine, int rigaFine, bool orizzontale, std::vector<int> celleoccupate);
+        //Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontale, std::vector<int> celleoccupate);
         int getColonnaInizio();
         int getRigaInizio();
         int getColonnaFine();
         int getRigaFine();
-        int getRigaCentrale();
-        int getColonnaCentrale();
-        void setRigaCentrale(int RigaCentrale);
-        void setColonnaCentrale(int ColonnaCentrale);
+        int getRigaCentrale() const;
+        int getColonnaCentrale() const;
+        void setRigaCentrale( int RigaCentrale);
+        void setColonnaCentrale( int ColonnaCentrale);
         std::vector<int> getCelleOccupate();
         void setCelleOccupate(std::vector<int> celleoccupate);
         ShipType GetType() const;

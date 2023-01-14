@@ -209,28 +209,29 @@ void Tab_dif::initTab()
                 c1.setType(ShipType::CORAZZATA);
                 c1.setRigaCentrale(riga_centrale);
                 c1.setColonnaCentrale(colonna_centrale);
+                std::cout << c1.ColonnaCentrale << "\n";
                 c1.setCelleOccupate(celle_occupate_tmp);
                 if (riga_poppa_int == riga_prua_int){
                     c1.setOrizzontale();
                     std::cout << "La corazzata 1 è piazzata\n";
                 }
                 
-                std::cout<< c1.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
+                std::cout<< c1.getOrizzontale() << " " << riga_centrale << " " << colonna_centrale<< std::endl;
             } else if(i == 1)
                 {   
-                    Ship c2(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    //Ship c2(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
                     if (riga_poppa_int == riga_prua_int){
-                        c2.setOrizzontale();
+                        //c2.setOrizzontale();
                         std::cout << "La corazzata 2 è piazzata\n";
                     }
-                    std::cout<< c2.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
+                    //std::cout<< c2.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
                 } else if(i == 2){
-                    Ship c3(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    //Ship c3(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
                     if (riga_poppa_int == riga_prua_int){
-                            c3.setOrizzontale();
+                            //c3.setOrizzontale();
                             std::cout << "La corazzata 3 è piazzata\n";
                         }
-                    std::cout<< c3.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
+                    //std::cout<< c3.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
             }
     }
     /*for(int i = 0; i < supp; i++)

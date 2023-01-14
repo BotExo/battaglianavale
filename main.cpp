@@ -4,7 +4,7 @@
 #include "Tabella_difesa.h"
 #include "Ship.h"
 
-int main(void)
+int main()
 {   Tab_att a;
     Tab_dif d;
     Ship c1;
@@ -25,6 +25,20 @@ int main(void)
     std::cout << "\n";
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
-    std::cout << " le celle occupate dalla prima corazzata sono: " "\n";
-    c1.printCelleOccupate();
+    std::cout << " la colonna centrale e': " "\n";
+    std::cout << c1.ColonnaCentrale << "\n";
+    std::cout << " la riga centrale e': " "\n";
+    std::cout << c1.RigaCentrale << "\n";
+    std::cout << " il tipo di nave e': " "\n";
+    if (c1.GetType() == ShipType::CORAZZATA){
+      std::cout << "corazzata" << "\n";
+    }
+    else if (c1.GetType() == ShipType::NAVE_SUPPORTO){
+      std::cout << "nave supporto" << "\n";
+    }
+    else if (c1.GetType() == ShipType::SOTTOMARINO){
+      std::cout << "sottomarino" << "\n";
+    }
+
+    
 }
