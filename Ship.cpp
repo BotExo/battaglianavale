@@ -51,14 +51,14 @@ Ship::Ship(){
   type_ = ShipType::CORAZZATA;
   size_=5;
   health_ = 5;
-  int RigaCentrale=1;
-  int ColonnaCentrale=1;
+  int RigaCentrale=0;
+  int ColonnaCentrale=0;
   this->colonnaInizio = 0;
   this->rigaInizio = 0;
   this->colonnaFine = 0;
   this->rigaFine = 0;
-  orizzontale = false;
-  celleoccupate;
+  this->orizzontale = true;
+  this->celleoccupate;
 }
 
 
@@ -133,11 +133,11 @@ int Ship::getColonnaCentrale() const {
 }
 
 void Ship::setColonnaCentrale(int colonna){
-  ColonnaCentrale == colonna;
+  this->ColonnaCentrale = colonna;
 }
 
 void Ship::setRigaCentrale(int riga){
-  RigaCentrale == riga;
+  this->RigaCentrale = riga;
 }
 
 std::vector<int> Ship::getCelleOccupate(){

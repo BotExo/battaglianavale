@@ -21,15 +21,19 @@ int main()
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
     std::cout << "\n";
-    d.initTab();
+    d.initTab(c1);
     std::cout << "\n";
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
     std::cout << " la colonna centrale e': " "\n";
+    //c1.setColonnaCentrale(9);
+    
     std::cout << c1.ColonnaCentrale << "\n";
     std::cout << " la riga centrale e': " "\n";
+    //c1.setRigaCentrale(9);
     std::cout << c1.RigaCentrale << "\n";
     std::cout << " il tipo di nave e': " "\n";
+    //c1.setType(ShipType::SOTTOMARINO);
     if (c1.GetType() == ShipType::CORAZZATA){
       std::cout << "corazzata" << "\n";
     }

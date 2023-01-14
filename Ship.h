@@ -2,7 +2,6 @@
 #define SHIP_H
 
 #include <iostream>
-#include "Tabella_difesa.h"
 #include <vector>
 
 enum class ShipType {
