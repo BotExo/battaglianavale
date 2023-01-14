@@ -21,14 +21,10 @@ class Ship {
         int riga;
         int size_;
         int health_;
-        ShipType type_;
-        int RigaCentrale;
-        int ColonnaCentrale;
-        bool orizzontale;
-        std::vector<int> celleoccupate;
-
+        
     public:
-        Ship(ShipType type, char colonnaInizio, int rigaInizio, char colonnaFine, int rigaFine, bool orizzontale);
+        Ship();
+        Ship(ShipType type, char colonnaInizio, int rigaInizio, char colonnaFine, int rigaFine, bool orizzontale, std::vector<int> celleoccupate);
         Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontale, std::vector<int> celleoccupate);
         int getColonnaInizio();
         int getRigaInizio();
@@ -36,19 +32,24 @@ class Ship {
         int getRigaFine();
         int getRigaCentrale();
         int getColonnaCentrale();
-        bool TakeDamage();
-        void move();
-        void Repair();
-        void Reveal();
-        bool IsSunk();
+        void setRigaCentrale(int RigaCentrale);
+        void setColonnaCentrale(int ColonnaCentrale);
+        std::vector<int> getCelleOccupate();
+        void setCelleOccupate(std::vector<int> celleoccupate);
         ShipType GetType() const;
+        void setType(ShipType type);
         void TakeHit();
         bool IsDestroyed() const;
-        char GetSymbol();
         int GetSize() const;
         int GetNumHits() const;
-        void setOrizzontale() const;
-        bool getOrizzontale() const;
+        void setOrizzontale();
+        bool getOrizzontale()const;
+        bool orizzontale;
+        void printCelleOccupate();
+        std::vector<int> celleoccupate;
+        int RigaCentrale;
+        int ColonnaCentrale;
+        ShipType type_;
         //void moveShip(Ship &ship, int middleX, int middleY, Tab_dif const& tabella_difesa);
         
 

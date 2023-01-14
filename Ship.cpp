@@ -2,7 +2,7 @@
 #include "Tabella_difesa.h"
 
 // Constructor
-Ship::Ship(ShipType tipo, char ColIn, int RigIn, char ColFin, int RigFin, bool orizzontale) {
+/*Ship::Ship(ShipType tipo, char ColIn, int RigIn, char ColFin, int RigFin, bool orizzontale, std::vector<int> celle_occ) {
   type_ = tipo;
   switch (tipo) {
     case ShipType::CORAZZATA:
@@ -24,7 +24,8 @@ Ship::Ship(ShipType tipo, char ColIn, int RigIn, char ColFin, int RigFin, bool o
   }
     else {
     orizzontale = true;
-  } 
+  }
+  celleoccupate;
 }
 
 Ship::Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontale, std::vector<int> celle_occ){
@@ -43,8 +44,21 @@ Ship::Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontal
   this->RigaCentrale = RigaCentrale;
   this->ColonnaCentrale = ColonnaCentrale;
   this->orizzontale = orizzontale;
+  celleoccupate;
+}*/
 
+Ship::Ship(){
+  type_ = ShipType::CORAZZATA;
+  size_=5;
+  health_ = 5;
+  this->colonnaInizio = 0;
+  this->rigaInizio = 0;
+  this->colonnaFine = 0;
+  this->rigaFine = 0;
+  orizzontale = false;
+  celleoccupate;
 }
+
 
 // Returns the size of the ship
 int Ship::GetSize() const {
@@ -80,10 +94,6 @@ bool Ship::IsDestroyed() const {
   return health_ <= 0;
 }
 
-void Ship::setOrizzontale() const {
-  orizzontale == 1;
-}
-
 int Ship::getColonnaInizio(){
   return (int)colonnaInizio;
 }
@@ -100,8 +110,44 @@ int Ship::getRigaFine(){
   return rigaFine;
 }
 
+void Ship::setOrizzontale() {
+  orizzontale = true;
+}
+
 bool Ship::getOrizzontale() const{
   return orizzontale;
+}
+
+void Ship::printCelleOccupate(){
+  std::cout<< celleoccupate.at(0) << " " << celleoccupate.at(1) << " " << celleoccupate.at(2) <<" "<< celleoccupate.at(3) <<std::endl;
+}
+
+int Ship::getRigaCentrale(){
+  return RigaCentrale;
+}
+
+int Ship::getColonnaCentrale(){
+  return ColonnaCentrale;
+}
+
+void Ship::setColonnaCentrale(int colonna){
+  ColonnaCentrale = colonna;
+}
+
+void Ship::setRigaCentrale(int riga){
+  RigaCentrale = riga;
+}
+
+std::vector<int> Ship::getCelleOccupate(){
+  return celleoccupate;
+}
+
+void Ship::setCelleOccupate(std::vector<int> celle){
+   celleoccupate = celle;
+}
+
+void Ship::setType(ShipType tipo){
+  type_ = tipo;
 }
 
 /*

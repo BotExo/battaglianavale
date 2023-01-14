@@ -151,7 +151,9 @@ void Tab_dif::Fill(int riga_poppa, int riga_prua, int colonna_poppa, int colonna
 }
 
 void Tab_dif::initTab()
-{   const int coraz = 3;
+{   
+    Ship c1;
+    const int coraz = 3;
     const int supp = 3;
     const int sott = 2;
     const int dim_coraz = 5;
@@ -204,12 +206,16 @@ void Tab_dif::initTab()
 //creo le 3 corazzate
         
         if(i == 0){
-                Ship c1(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                c1.setType(ShipType::CORAZZATA);
+                c1.setRigaCentrale(riga_centrale);
+                c1.setColonnaCentrale(colonna_centrale);
+                c1.setCelleOccupate(celle_occupate_tmp);
                 if (riga_poppa_int == riga_prua_int){
                     c1.setOrizzontale();
                     std::cout << "La corazzata 1 è piazzata\n";
-                    std::cout<< c1.getOrizzontale() <<std::endl;
                 }
+                
+                std::cout<< c1.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
             } else if(i == 1)
                 {   
                     Ship c2(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
@@ -217,15 +223,17 @@ void Tab_dif::initTab()
                         c2.setOrizzontale();
                         std::cout << "La corazzata 2 è piazzata\n";
                     }
+                    std::cout<< c2.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
                 } else if(i == 2){
                     Ship c3(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
                     if (riga_poppa_int == riga_prua_int){
                             c3.setOrizzontale();
                             std::cout << "La corazzata 3 è piazzata\n";
                         }
+                    std::cout<< c3.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
             }
     }
-    for(int i = 0; i < supp; i++)
+    /*for(int i = 0; i < supp; i++)
     {   std::string poppa = "", prua = "";
         std::cout << "Quali sono le coordinate per la nave di supporto " << i+1 <<"?\n";
         std::cin >> poppa;
@@ -259,7 +267,7 @@ void Tab_dif::initTab()
             riga_centrale = (riga_poppa_int + riga_prua_int) / 2;
         }
         
-/*creo le 3 navi di supporto (manca da implementare la f virtuale)*/
+//creo le 3 navi di supporto (manca da implementare la f virtuale)
         
         if(i == 0){
                 Ship s1(ShipType::NAVE_SUPPORTO, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
@@ -267,18 +275,21 @@ void Tab_dif::initTab()
                     s1.setOrizzontale();
                     std::cout << "La supporto 1 è piazzata\n";
                 }
+                std::cout<< s1.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
             } else if(i == 1)
                 {   Ship s2(ShipType::NAVE_SUPPORTO, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
                     if (riga_poppa_int == riga_prua_int){
                         s2.setOrizzontale();
                         std::cout << "La supporto 2 è piazzata\n";
                     }
+                    std::cout<< s2.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
                 } else if(i == 2){
                     Ship s3(ShipType::NAVE_SUPPORTO, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
                     if (riga_poppa_int == riga_prua_int){
                             s3.setOrizzontale();
                             std::cout << "La supporto 3 è piazzata\n";
                         }
+                        std::cout<< s3.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
             } 
     }
     for(int i = 0; i < sott; i++)
@@ -304,7 +315,7 @@ void Tab_dif::initTab()
         std::cout<< celle_occupate_tmp.at(0) << " " << celle_occupate_tmp.at(1) << " " << celle_occupate_tmp.at(2) <<" "<< celle_occupate_tmp.at(3) <<std::endl;
         
               
-/*creo i 2 sottomarini (manca da implementare la f virtuale)*/
+//creo i 2 sottomarini (manca da implementare la f virtuale)
 
         int riga_centrale = riga_poppa_int;
         int colonna_centrale = coord_poppa.getColonna();
@@ -323,7 +334,7 @@ void Tab_dif::initTab()
                     std::cout << "Il sottomarino 2 è piazzato\n";
                 }
             }
-    }
+    }*/
 }
 
 void Tab_dif::delete_ships(){
