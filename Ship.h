@@ -42,7 +42,7 @@ class Ship {
         int ColonnaCentrale;
         ShipType type_;
         void printShipInfo();
-        //void moveShip(Ship &ship, int middleX, int middleY, Tab_dif const& tabella_difesa);
+        class Invalid_Matrix_Position{};
 
 
     private:

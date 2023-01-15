@@ -1,4 +1,4 @@
-//De Maria Giovanni
+
 
 #include <iostream>
 #include <vector>
@@ -726,3 +726,119 @@ void Tab_dif::setMin(int r, int c)
         matrix[r][c] = " e";
     delete_ships();
 }
+
+void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa){
+  if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] != " "){
+                    throw Invalid_Matrix_Position();
+    }
+    else{
+        if(ship.orizzontale==true && matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] == " " &&
+         matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] == " "){
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S"){
+                matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";}
+                else{
+                    matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
+                }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S"){
+                matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";}
+                else{
+                    matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S"){
+                matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";}
+                else{
+                    matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
+            }
+            for (int i = -1; i < 2; i++)
+            {
+                int vitaextra = 0;
+                if(matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i]==" c"){
+
+                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i] = " C";
+
+                } else if(matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i]==" s"){
+                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i] = " S";
+                }
+                if(matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i]==" c"){
+                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i] = " C";
+                } else if(matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i]==" s"){
+                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i] = " S";
+                }
+
+            }
+            
+        }
+            else if (matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] == " " &&
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] == " "){
+            if(matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " S"){
+                matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " S";}
+                else{
+                    matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " s";
+                }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S"){
+                matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";}
+                else{
+                    matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                }
+            if(matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " S"){
+                matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " S";}
+                else{
+                    matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " s";
+            }
+
+        }
+        ship.RigaCentrale=NuovaRigaCentrale;
+        ship.ColonnaCentrale=NuovaColonnaCentrale;
+    }
+            
+}
+
+void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif const& tabella_difesa2){
+    if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] != " "){
+                    throw Invalid_Matrix_Position();
+    }
+    if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " "){
+        matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " E";
+        matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+    }
+    
+    for (int i = -2; i < 2; i++)
+    {
+        for (int j = -2; j < 2; j++)
+        {
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S"){
+                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+            }else
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " s"){
+                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+            }else
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C"){
+                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+            }else
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " c"){
+                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+            }else
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E"){
+                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+            }
+        }
+        ship.RigaCentrale=NuovaRigaCentrale;
+        ship.ColonnaCentrale=NuovaColonnaCentrale;
+    }
+    
+}
+
+
+        

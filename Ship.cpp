@@ -165,3 +165,4 @@ void Ship::printShipInfo(){
     std::cout << "riga centrale: " << RigaCentrale << "\n";
     std::cout << "colonna centrale: " << ColonnaCentrale << "\n";
 }
+

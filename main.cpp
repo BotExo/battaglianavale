@@ -7,21 +7,10 @@
 int main()
 {   Tab_att a;
     Tab_dif d;
-    Ship c1;
-    Ship c2;
-    Ship c3;
-    Ship s1;
-    Ship s2;
-    Ship s3;
-    Ship e1;
-    Ship e2;
-    /*Ship c2(ShipType::NAVE_SUPPORTO, 0, 0, 0, 0, false,  {0, 1, 2, 3});
-    Ship c3(ShipType::CORAZZATA, 0, 0, 0, 0, false,  {0, 1, 2, 3});
-    Ship s1(ShipType::CORAZZATA, 0, 0, 0, 0, false,  {0, 1, 2, 3});
-    Ship s2(ShipType::NAVE_SUPPORTO,  0, 0, 0, 0, false, {0, 1, 2, 3});
-    Ship s3(ShipType::NAVE_SUPPORTO,  0, 0, 0, 0, false, {0, 1, 2, 3});
-    Ship e1(ShipType::NAVE_SUPPORTO, 0, 0, 0, 0, false,  {0, 1, 2, 3});
-    Ship e2(ShipType::SOTTOMARINO, 0, 0, 0, 0, false,  {0, 1, 2, 3});*/
+    Tab_att apc;
+    Tab_dif dpc;
+    Ship nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2;
+    Ship c1, c2, c3, s1, s2, s3, e1, e2;
     std::cout << "Tabella di attacco:\n";
     std::cout << a.getTab();
     std::cout << "\n";
@@ -29,6 +18,7 @@ int main()
     std::cout << d.getTab();
     std::cout << "\n";
     d.initTab(c1, c2, c3, s1, s2, s3, e1, e2);
+    dpc.auto_initTab(nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2);
     std::cout << "\n";
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
@@ -49,6 +39,13 @@ int main()
     e1.printShipInfo();
     std::cout << "Informazioni sul secondo sottomarino: \n";
     e2.printShipInfo();
-
+    d.moveAndScan(e1, 7,7, d,a,dpc);
+    std::cout << "Tabella di difesa player: \n";
+    std::cout << d.getTab();
+    std::cout << "Tabella di difesa pc:\n";
+    std::cout << dpc.getTab();
+    std::cout << "Tabella di attacco player:\n";
+    std::cout << a.getTab();
     
+    e1.printShipInfo();
 }

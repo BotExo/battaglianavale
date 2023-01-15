@@ -13,6 +13,7 @@ class Tab_att
         void clearXO();
         void insert(int r, int c, std::string s);
         class Invalid_Character{};
+        friend class Tab_dif;
     private:
         std::vector<std::vector<std::string>> matrix;
 };

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include "Ship.h"
+#include "Tabella_attacco.h"
 
 class Tab_dif
 {   public:
@@ -17,6 +18,8 @@ class Tab_dif
         void delete_ships();
         void setMin(int r, int c);
         class Invalid_Matrix_Position{};
+        void moveAndRepair(Ship& Ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa);
+        void moveAndScan(Ship& Ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif const& tabella_difesa_pc);
     private:
         std::vector<std::vector<std::string>> matrix;
 };
