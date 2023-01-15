@@ -57,7 +57,7 @@ Ship::Ship(){
   this->rigaInizio = 0;
   this->colonnaFine = 0;
   this->rigaFine = 0;
-  this->orizzontale = true;
+  this->orizzontale = false;
   this->celleoccupate;
 }
 
@@ -152,21 +152,16 @@ void Ship::setType(ShipType tipo){
   type_ = tipo;
 }
 
-/*
-void Ship::moveShip(Ship &ship, int middleX, int middleY, Tab_dif const& tabdif) {
-    // Copy the state of each cell that the ship occupies in the hit matrix before moving the ship.
-    Tab_dif tempMatrix[13][13];
-    for (int x = ship.getColonnaInizio(); x <= ship.getColonnaFine(); x++) {
-        for (int y = ship.getRigaInizio(); y <= ship.getRigaFine(); y++) {
-            tempMatrix[x][y] == tabdif.matrix[x][y];
-        }
+void Ship::printShipInfo(){
+  if (type_ == ShipType::CORAZZATA){
+      std::cout << "corazzata" << "\n";
     }
-    // Remove the ship from its current position on the game board
-    for (int x = ship.getStartX(); x <= ship.getEndX(); x++) {
-        for (int y = ship.getStartY(); y <= ship.getEndY(); y++) {
-            m_gameBoard[x][y] = '.';
-        }
+    else if (type_ == ShipType::NAVE_SUPPORTO){
+      std::cout << "nave supporto" << "\n";
     }
-
-
-}    */
+    else if (type_ == ShipType::SOTTOMARINO){
+      std::cout << "sottomarino" << "\n";
+    }
+    std::cout << "riga centrale: " << RigaCentrale << "\n";
+    std::cout << "colonna centrale: " << ColonnaCentrale << "\n";
+}

@@ -10,6 +10,11 @@ int main()
     Ship c1;
     Ship c2;
     Ship c3;
+    Ship s1;
+    Ship s2;
+    Ship s3;
+    Ship e1;
+    Ship e2;
     /*Ship c2(ShipType::NAVE_SUPPORTO, 0, 0, 0, 0, false,  {0, 1, 2, 3});
     Ship c3(ShipType::CORAZZATA, 0, 0, 0, 0, false,  {0, 1, 2, 3});
     Ship s1(ShipType::CORAZZATA, 0, 0, 0, 0, false,  {0, 1, 2, 3});
@@ -23,32 +28,27 @@ int main()
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
     std::cout << "\n";
-    d.initTab(c1, c2, c3);
+    d.initTab(c1, c2, c3, s1, s2, s3, e1, e2);
     std::cout << "\n";
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
-    std::cout << " la colonna centrale della prima nave  e': " "\n";
-    std::cout << c1.getColonnaCentrale() << "\n";
-    std::cout << " la riga centrale della prima nave e': \n";
-    std::cout << c1.getRigaCentrale() << "\n";
-    std::cout << " il tipo di nave 1 e': \n";
-    if (c1.GetType() == ShipType::CORAZZATA){
-      std::cout << "corazzata" << "\n";
-    }
-    else if (c1.GetType() == ShipType::NAVE_SUPPORTO){
-      std::cout << "nave supporto" << "\n";
-    }
-    else if (c1.GetType() == ShipType::SOTTOMARINO){
-      std::cout << "sottomarino" << "\n";
-    }
-    std::cout << " la colonna centrale della seconda nave  e': " "\n";
-    std::cout << c2.getColonnaCentrale() << "\n";
-    std::cout << " la riga centrale della seconda nave e': \n";
-    std::cout << c2.getRigaCentrale() << "\n";
-    std::cout << " la colonna centrale della terza nave  e': " "\n";
-    std::cout << c3.getColonnaCentrale() << "\n";
-    std::cout << " la riga centrale della terza nave e': \n";
-    std::cout << c3.getRigaCentrale() << "\n";
+    std::cout << "Informazioni sulla prima corazzata: \n";
+    c1.printShipInfo();
+    std::cout << c1.orizzontale << "\n";
+    std::cout << "Informazioni sulla seconda corazzata: \n";
+    c2.printShipInfo();
+    std::cout << "Informazioni sulla terza corazzata: \n";
+    c3.printShipInfo();
+    std::cout << "Informazioni sulla prima nave supporto: \n";
+    s1.printShipInfo();
+    std::cout << "Informazioni sulla seconda nave supporto: \n";
+    s2.printShipInfo();
+    std::cout << "Informazioni sulla terza nave supporto: \n";
+    s3.printShipInfo();
+    std::cout << "Informazioni sul primo sottomarino: \n";
+    e1.printShipInfo();
+    std::cout << "Informazioni sul secondo sottomarino: \n";
+    e2.printShipInfo();
 
     
 }

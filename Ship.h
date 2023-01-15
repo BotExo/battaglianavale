@@ -41,6 +41,7 @@ class Ship {
         int RigaCentrale;
         int ColonnaCentrale;
         ShipType type_;
+        void printShipInfo();
         //void moveShip(Ship &ship, int middleX, int middleY, Tab_dif const& tabella_difesa);
 
 

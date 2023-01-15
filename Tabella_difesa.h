@@ -1,3 +1,5 @@
+//De Maria Giovanni
+
 #ifndef TABDIF_H
 #define TABDIF_H
 
@@ -10,7 +12,8 @@ class Tab_dif
         Tab_dif();
         std::string getTab();
         void Fill(int riga_poppa, int riga_prua, int colonna_poppa, int colonna_prua, std::string T, int dim);
-        void initTab(Ship& nave1, Ship& nave2, Ship& nave3);
+        void initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2);
+        void auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2);
         void delete_ships();
         void setMin(int r, int c);
         class Invalid_Matrix_Position{};
