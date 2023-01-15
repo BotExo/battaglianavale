@@ -27,15 +27,11 @@ int main()
     std::cout << "\n";
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
-    std::cout << " la colonna centrale e': " "\n";
-    //c1.setColonnaCentrale(9);
-    
+    std::cout << " la colonna centrale della prima nave  e': " "\n";
     std::cout << c1.getColonnaCentrale() << "\n";
-    std::cout << " la riga centrale e': " "\n";
-    //c1.setRigaCentrale(9);
+    std::cout << " la riga centrale della prima nave e': \n";
     std::cout << c1.getRigaCentrale() << "\n";
-    std::cout << " il tipo di nave e': " "\n";
-    //c1.setType(ShipType::SOTTOMARINO);
+    std::cout << " il tipo di nave 1 e': \n";
     if (c1.GetType() == ShipType::CORAZZATA){
       std::cout << "corazzata" << "\n";
     }
@@ -45,6 +41,14 @@ int main()
     else if (c1.GetType() == ShipType::SOTTOMARINO){
       std::cout << "sottomarino" << "\n";
     }
+    std::cout << " la colonna centrale della seconda nave  e': " "\n";
+    std::cout << c2.getColonnaCentrale() << "\n";
+    std::cout << " la riga centrale della seconda nave e': \n";
+    std::cout << c2.getRigaCentrale() << "\n";
+    std::cout << " la colonna centrale della terza nave  e': " "\n";
+    std::cout << c3.getColonnaCentrale() << "\n";
+    std::cout << " la riga centrale della terza nave e': \n";
+    std::cout << c3.getRigaCentrale() << "\n";
 
     
 }

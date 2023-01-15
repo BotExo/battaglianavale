@@ -150,7 +150,7 @@ void Tab_dif::Fill(int riga_poppa, int riga_prua, int colonna_poppa, int colonna
             throw Invalid_Matrix_Position();
 }
 
-void Tab_dif::initTab(Ship nave1, Ship nave2, Ship nave3)
+void Tab_dif::initTab(Ship& nave1, Ship& nave2, Ship& nave3)
 {   
     const int coraz = 3;
     const int supp = 3;
@@ -205,11 +205,9 @@ void Tab_dif::initTab(Ship nave1, Ship nave2, Ship nave3)
 //creo le 3 corazzate
         
         if(i == 0){
-                nave1.setType(ShipType::SOTTOMARINO);
+                nave1.setType(ShipType::CORAZZATA);
                 nave1.setRigaCentrale(riga_centrale);
-                std::cout<< "la riga centrale dopo il setter vale"<< std::endl;
-                std::cout<< nave1.getRigaCentrale()<< std::endl;
-                nave1.setColonnaCentrale(8);
+                nave1.setColonnaCentrale(colonna_centrale);
                 if (riga_poppa_int == riga_prua_int){
                     nave1.setOrizzontale();
                     std::cout << "La corazzata 1 è piazzata\n";
@@ -218,14 +216,18 @@ void Tab_dif::initTab(Ship nave1, Ship nave2, Ship nave3)
                 std::cout<< nave1.getOrizzontale() << " " << riga_centrale << " " << colonna_centrale<< std::endl;
             } else if(i == 1)
                 {   
-                    //Ship c2(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    nave2.setType(ShipType::CORAZZATA);
+                    nave2.setRigaCentrale(riga_centrale);
+                    nave2.setColonnaCentrale(colonna_centrale);
                     if (riga_poppa_int == riga_prua_int){
                         //c2.setOrizzontale();
                         std::cout << "La corazzata 2 è piazzata\n";
                     }
                     //std::cout<< c2.getOrizzontale() << " " << riga_poppa_int << " " << riga_prua_int<< std::endl;
                 } else if(i == 2){
-                    //Ship c3(ShipType::CORAZZATA, riga_centrale ,colonna_centrale, false, celle_occupate_tmp);
+                    nave3.setType(ShipType::CORAZZATA);
+                    nave3.setRigaCentrale(riga_centrale);
+                    nave3.setColonnaCentrale(colonna_centrale);
                     if (riga_poppa_int == riga_prua_int){
                             //c3.setOrizzontale();
                             std::cout << "La corazzata 3 è piazzata\n";
