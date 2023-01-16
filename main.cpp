@@ -39,7 +39,12 @@ int main()
     e1.printShipInfo();
     std::cout << "Informazioni sul secondo sottomarino: \n";
     e2.printShipInfo();
-    d.fire(c1, 7, 7, d, a, dpc);
+    for (int i = 0; i < 10; i++)
+    {   for (int j = 0; j < 10; j++)
+        {   d.fire(c1, i, j, d, a, dpc);
+        }
+    }
+    //d.fire(c1, 7, 7, d, a, dpc);
     std::cout << "Tabella di difesa player: \n";
     std::cout << d.getTab();
     std::cout << "Tabella di difesa pc:\n";

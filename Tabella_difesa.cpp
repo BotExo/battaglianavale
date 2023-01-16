@@ -892,13 +892,13 @@ void Tab_dif::fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Ta
                 (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E") || (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S")){
              tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " X";
              if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C"){
-                 tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " c";
+                 tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
              }
             if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S"){
-                tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " s";
+                tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
             }
             if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E"){
-                tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " ";
+                tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
             }
         }
         else{
