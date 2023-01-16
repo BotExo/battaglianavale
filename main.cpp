@@ -39,13 +39,14 @@ int main()
     e1.printShipInfo();
     std::cout << "Informazioni sul secondo sottomarino: \n";
     e2.printShipInfo();
-    d.moveAndScan(e1, 7,7, d,a,dpc);
+    d.fire(c1, 7, 7, d, a, dpc);
     std::cout << "Tabella di difesa player: \n";
     std::cout << d.getTab();
     std::cout << "Tabella di difesa pc:\n";
     std::cout << dpc.getTab();
     std::cout << "Tabella di attacco player:\n";
     std::cout << a.getTab();
-    
-    e1.printShipInfo();
+    d.moveAndRepair(s1, 7, 7, d);
+    std::cout << d.getTab();
+    s1.printCelleOccupate();
 }

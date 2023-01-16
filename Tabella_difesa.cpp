@@ -187,13 +187,15 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         
 //stampo le coordinate di prua e poppa della nave appena creata
         
-        std::vector<int> celle_occupate_tmp {riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        std::vector<std::pair<int, int>> celle_occupate_tmp;
+        
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
-            {   std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+            {   
+                celle_occupate_tmp.push_back(std::make_pair(i, j));
+                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
         }
-        std::cout << "gli estremi sono: (" << celle_occupate_tmp.at(0) << ", " << celle_occupate_tmp.at(1) << ") (" << celle_occupate_tmp.at(2) << ", " << celle_occupate_tmp.at(3) << ")" << std::endl;
         
 //trovo le coordinate del centro della corazzata
 
@@ -213,6 +215,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         {   c1.setType(ShipType::CORAZZATA);
             c1.setRigaCentrale(riga_centrale);
             c1.setColonnaCentrale(colonna_centrale);
+            c1.setCelleOccupate(celle_occupate_tmp);
             if(riga_poppa_int == riga_prua_int)
             {   c1.setOrizzontale();
                 std::cout << "La corazzata 1 è piazzata\n";
@@ -222,6 +225,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
             {   c2.setType(ShipType::CORAZZATA);
                 c2.setRigaCentrale(riga_centrale);
                 c2.setColonnaCentrale(colonna_centrale);
+                c2.setCelleOccupate(celle_occupate_tmp);
                 if(riga_poppa_int == riga_prua_int)
                 {   c2.setOrizzontale();
                     std::cout << "La corazzata 2 è piazzata\n";
@@ -231,6 +235,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
                 {   c3.setType(ShipType::CORAZZATA);
                     c3.setRigaCentrale(riga_centrale);
                     c3.setColonnaCentrale(colonna_centrale);
+                    c3.setCelleOccupate(celle_occupate_tmp);
                     if(riga_poppa_int == riga_prua_int)
                     {   c3.setOrizzontale();
                         std::cout << "La corazzata 3 è piazzata\n";
@@ -251,13 +256,14 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "S", dim_supp);
-        std::vector<int> celle_occupate_tmp {riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        std::vector<std::pair<int, int>> celle_occupate_tmp;
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
-            {   std::cout<<"Le celle occupate sono riga: " << i << " e colonna: "<< j << "\n"; 
+            {   
+                celle_occupate_tmp.push_back(std::make_pair(i, j));
+                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
         }
-        std::cout << "gli estremi sono: (" << celle_occupate_tmp.at(0) << ", " << celle_occupate_tmp.at(1) << ") (" << celle_occupate_tmp.at(2) << ", " << celle_occupate_tmp.at(3) << ")" << std::endl;
         
 //trovo le coordinate del centro della nave di supporto
 
@@ -277,6 +283,8 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         {   s1.setType(ShipType::NAVE_SUPPORTO);
             s1.setRigaCentrale(riga_centrale);
             s1.setColonnaCentrale(colonna_centrale);
+            s1.setCelleOccupate(celle_occupate_tmp);
+            s1.SetSize(dim_supp);
             if(riga_poppa_int == riga_prua_int)
             {   s1.setOrizzontale();
                 std::cout << "La supporto 1 è piazzata\n";
@@ -287,6 +295,8 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
             {   s2.setType(ShipType::NAVE_SUPPORTO);
                 s2.setRigaCentrale(riga_centrale);
                 s2.setColonnaCentrale(colonna_centrale);
+                s2.setCelleOccupate(celle_occupate_tmp);
+                s2.SetSize(dim_supp);
                 if(riga_poppa_int == riga_prua_int)
                 {   s2.setOrizzontale();
                     std::cout << "La supporto 2 è piazzata\n";
@@ -296,6 +306,8 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
                 {   s3.setType(ShipType::NAVE_SUPPORTO);
                     s3.setRigaCentrale(riga_centrale);
                     s3.setColonnaCentrale(colonna_centrale);
+                    s3.setCelleOccupate(celle_occupate_tmp);
+                    s3.SetSize(dim_supp);
                     if(riga_poppa_int == riga_prua_int)
                     {   s3.setOrizzontale();
                         std::cout << "La supporto 3 è piazzata\n";
@@ -317,14 +329,14 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "E", dim_sott);
-        std::vector<int> celle_occupate_tmp {riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
-        for(int i = riga_poppa_int; i <= riga_prua_int; i ++)
-        {   for(int j=colonna_poppa; j <= colonna_prua; j++)
-            {   std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+        std::vector<std::pair<int, int>> celle_occupate_tmp;
+        for(int i = riga_poppa_int; i <= riga_prua_int; i++)
+        {   for(int j = colonna_poppa; j <= colonna_prua; j++)
+            {   
+                celle_occupate_tmp.push_back(std::make_pair(i, j));
+                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
-        }
-        std::cout << "gli estremi sono: (" << celle_occupate_tmp.at(0) << ", " << celle_occupate_tmp.at(1) << ") (" << celle_occupate_tmp.at(2) << ", " << celle_occupate_tmp.at(3) << ")" << std::endl;
-              
+        }              
 //creo i 2 sottomarini (manca da implementare la f virtuale)
 
         int riga_centrale = riga_poppa_int;
@@ -333,6 +345,8 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         {   e1.setType(ShipType::SOTTOMARINO);
             e1.setRigaCentrale(riga_centrale);
             e1.setColonnaCentrale(colonna_centrale);
+            e1.setCelleOccupate(celle_occupate_tmp);
+            e1.SetSize(dim_sott);
             if(riga_poppa_int == riga_prua_int)
             {   e1.setOrizzontale();
                 std::cout << "Il sottomarino 1 è piazzato\n";
@@ -342,6 +356,8 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
             {   e2.setType(ShipType::SOTTOMARINO);
                 e2.setRigaCentrale(riga_centrale);
                 e2.setColonnaCentrale(colonna_centrale);
+                e2.setCelleOccupate(celle_occupate_tmp);
+                e2.SetSize(dim_sott);
                 if(riga_poppa_int == riga_prua_int)
                 {   e2.setOrizzontale();
                     std::cout << "Il sottomarino 2 è piazzato\n";
@@ -442,14 +458,15 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         
 //stampo le coordinate di prua e poppa della nave appena creata
         
-        std::vector<int> celle_occupate_tmp {riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        std::vector<std::pair<int, int>> celle_occupate_tmp;
+        
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
-            {   std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+            {   
+                celle_occupate_tmp.push_back(std::make_pair(i, j));
+                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
-        }
-        std::cout << "gli estremi sono: (" << celle_occupate_tmp.at(0) << ", " << celle_occupate_tmp.at(1) << ") (" << celle_occupate_tmp.at(2) << ", " << celle_occupate_tmp.at(3) << ")" << std::endl;
-        
+        }        
 //trovo le coordinate del centro della corazzata
 
         int riga_centrale = 0, colonna_centrale = 0;
@@ -468,6 +485,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         {   c1.setType(ShipType::CORAZZATA);
             c1.setRigaCentrale(riga_centrale);
             c1.setColonnaCentrale(colonna_centrale);
+            c1.setCelleOccupate(celle_occupate_tmp);
             if(riga_poppa_int == riga_prua_int)
             {   c1.setOrizzontale();
             }
@@ -478,6 +496,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
             {   c2.setType(ShipType::CORAZZATA);
                 c2.setRigaCentrale(riga_centrale);
                 c2.setColonnaCentrale(colonna_centrale);
+                c2.setCelleOccupate(celle_occupate_tmp);
                 if(riga_poppa_int == riga_prua_int)
                 {   c2.setOrizzontale();
                 }
@@ -488,6 +507,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                 {   c3.setType(ShipType::CORAZZATA);
                     c3.setRigaCentrale(riga_centrale);
                     c3.setColonnaCentrale(colonna_centrale);
+                    c3.setCelleOccupate(celle_occupate_tmp);
                     if(riga_poppa_int == riga_prua_int)
                     {   c3.setOrizzontale();
                     }
@@ -567,14 +587,15 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         
 //stampo le coordinate di prua e poppa della nave appena creata
         
-        std::vector<int> celle_occupate_tmp {riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        std::vector<std::pair<int, int>> celle_occupate_tmp;
+        
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
-            {   std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+            {   
+                celle_occupate_tmp.push_back(std::make_pair(i, j));
+                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
         }
-        std::cout << "gli estremi sono: (" << celle_occupate_tmp.at(0) << ", " << celle_occupate_tmp.at(1) << ") (" << celle_occupate_tmp.at(2) << ", " << celle_occupate_tmp.at(3) << ")" << std::endl;
-        
 //trovo le coordinate del centro della nave di supporto
 
         int riga_centrale = 0, colonna_centrale = 0;
@@ -593,6 +614,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         {   s1.setType(ShipType::NAVE_SUPPORTO);
             s1.setRigaCentrale(riga_centrale);
             s1.setColonnaCentrale(colonna_centrale);
+            s1.setCelleOccupate(celle_occupate_tmp);
+            s1.SetSize(dim_supp);
             if(riga_poppa_int == riga_prua_int)
             {   s1.setOrizzontale();
                 std::cout << "La nave di supporto 1 è piazzata\n";
@@ -603,6 +626,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
             {   s2.setType(ShipType::NAVE_SUPPORTO);
                 s2.setRigaCentrale(riga_centrale);
                 s2.setColonnaCentrale(colonna_centrale);
+                s2.setCelleOccupate(celle_occupate_tmp);
+                s2.SetSize(dim_supp);
                 if(riga_poppa_int == riga_prua_int)
                 {   s2.setOrizzontale();
                     std::cout << "La nave di supporto 2 è piazzata\n";
@@ -612,6 +637,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                 {   s3.setType(ShipType::NAVE_SUPPORTO);
                     s3.setRigaCentrale(riga_centrale);
                     s3.setColonnaCentrale(colonna_centrale);
+                    s3.setCelleOccupate(celle_occupate_tmp);
+                    s3.SetSize(dim_supp);
                     if(riga_poppa_int == riga_prua_int)
                     {   s3.setOrizzontale();
                         std::cout << "La nave di supporto 3 è piazzata\n";
@@ -662,14 +689,15 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         
 //stampo le coordinate di prua e poppa della nave appena creata
         
-        std::vector<int> celle_occupate_tmp {riga_poppa_int, colonna_poppa, riga_prua_int, colonna_prua};
+        std::vector<std::pair<int, int>> celle_occupate_tmp;
+        
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
-            {   std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+            {   
+                celle_occupate_tmp.push_back(std::make_pair(i, j));
+                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
-        }
-        std::cout << "gli estremi sono: (" << celle_occupate_tmp.at(0) << ", " << celle_occupate_tmp.at(1) << ") (" << celle_occupate_tmp.at(2) << ", " << celle_occupate_tmp.at(3) << ")" << std::endl;
-              
+        }      
 //creo i 2 sottomarini (manca da implementare la f virtuale)
 
         int riga_centrale = riga_poppa_int;
@@ -678,6 +706,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         {   e1.setType(ShipType::SOTTOMARINO);
             e1.setRigaCentrale(riga_centrale);
             e1.setColonnaCentrale(colonna_centrale);
+            e1.setCelleOccupate(celle_occupate_tmp);
+            e1.SetSize(dim_sott);
             if(riga_poppa_int == riga_prua_int)
             {   e1.setOrizzontale();
                 std::cout << "Il sottomarino 1 è piazzato\n";
@@ -687,6 +717,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
             {   e2.setType(ShipType::SOTTOMARINO);
                 e2.setRigaCentrale(riga_centrale);
                 e2.setColonnaCentrale(colonna_centrale);
+                e2.setCelleOccupate(celle_occupate_tmp);
+                e2.SetSize(dim_sott);
                 if(riga_poppa_int == riga_prua_int)
                 {   e2.setOrizzontale();
                     std::cout << "Il sottomarino 2 è piazzato\n";
@@ -732,28 +764,35 @@ void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCe
                     throw Invalid_Matrix_Position();
     }
     else{
+        std::vector<std::pair<int, int>> nuove_celle;
         if(ship.orizzontale==true && matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] == " " &&
          matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] == " "){
             if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S"){
                 matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";}
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));}
                 else{
                     matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
                     matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
                 }
             if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S"){
                 matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";}
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));}
                 else{
                     matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
                     matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
                 }
             if(matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S"){
                 matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";}
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));}
                 else{
                     matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
                     matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
             }
             for (int i = -1; i < 2; i++)
             {
@@ -801,6 +840,7 @@ void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCe
         }
         ship.RigaCentrale=NuovaRigaCentrale;
         ship.ColonnaCentrale=NuovaColonnaCentrale;
+        ship.setCelleOccupate(nuove_celle);
     }
             
 }
@@ -809,26 +849,30 @@ void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCent
     if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] != " "){
                     throw Invalid_Matrix_Position();
     }
+    std::vector<std::pair<int, int>> nuova_cella;
     if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " "){
         matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " E";
         matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+        nuova_cella.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+
+
     }
     
-    for (int i = -2; i < 2; i++)
+    for (int i = -2; i < 3; i++)
     {
-        for (int j = -2; j < 2; j++)
+        for (int j = -2; j < 3; j++)
         {
             if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S"){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
             }else
             if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " s"){
-                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
             }else
             if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C"){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
             }else
             if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " c"){
-                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
             }else
             if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E"){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
@@ -836,9 +880,42 @@ void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCent
         }
         ship.RigaCentrale=NuovaRigaCentrale;
         ship.ColonnaCentrale=NuovaColonnaCentrale;
+        ship.setCelleOccupate(nuova_cella);
     }
     
 }
 
+void Tab_dif::fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif& tabella_difesa2){
+    if(tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " C" || tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c"){
 
+        if((tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C") ||
+                (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E") || (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S")){
+             tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " X";
+             if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C"){
+                 tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " c";
+             }
+            if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S"){
+                tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " s";
+            }
+            if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E"){
+                tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " ";
+            }
+        }
+        else{
+             tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " O";
+        }
+        
+        if(ship.orizzontale==true){
+            if(tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " c" &&
+             tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+2] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " c" &&
+                tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-2] == " c"){
+                    
+    
+            }
+        }
+    else{
+        throw Invalid_Matrix_Position();
+        }
+    }
+}
         

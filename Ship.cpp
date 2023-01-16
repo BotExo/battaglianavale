@@ -49,7 +49,7 @@ Ship::Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontal
 
 Ship::Ship(){
   type_ = ShipType::CORAZZATA;
-  size_=5;
+  this->size_=5;
   health_ = 5;
   int RigaCentrale=0;
   int ColonnaCentrale=0;
@@ -74,6 +74,10 @@ int Ship::GetSize() const {
     default:
       return 0;
   }
+}
+
+void Ship::SetSize(int size){
+  this->size_ = size;
 }
 
 // Returns the number of hits the ship has taken
@@ -121,7 +125,11 @@ bool Ship::getOrizzontale() const{
 }
 
 void Ship::printCelleOccupate(){
-  std::cout<< celleoccupate.at(0) << " " << celleoccupate.at(1) << " " << celleoccupate.at(2) <<" "<< celleoccupate.at(3) <<std::endl;
+  for (int i = 0; i < size_; i++)
+  {
+    std::cout<< " prova di celle occupate: " << celleoccupate[i].first << " " << celleoccupate[i].second <<std::endl;
+  }
+  
 }
 
 int Ship::getRigaCentrale() const{
@@ -140,12 +148,12 @@ void Ship::setRigaCentrale(int riga){
   this->RigaCentrale = riga;
 }
 
-std::vector<int> Ship::getCelleOccupate(){
+std::vector<std::pair<int, int>> Ship::getCelleOccupate(){
   return celleoccupate;
 }
 
-void Ship::setCelleOccupate(std::vector<int> celle){
-   celleoccupate = celle;
+void Ship::setCelleOccupate(std::vector<std::pair<int, int>> celle){
+   this->celleoccupate = celle;
 }
 
 void Ship::setType(ShipType tipo){
