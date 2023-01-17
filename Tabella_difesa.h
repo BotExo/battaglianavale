@@ -21,6 +21,7 @@ class Tab_dif
         void moveAndRepair(Ship& Ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa);
         void moveAndScan(Ship& Ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif const& tabella_difesa_pc);
         void fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif& tabella_difesa2);
+        bool isOccupied(int r, int c);
     private:
         std::vector<std::vector<std::string>> matrix;
 };

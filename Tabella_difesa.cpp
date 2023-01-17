@@ -760,11 +760,51 @@ void Tab_dif::setMin(int r, int c)
 }
 
 void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa){
-  if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] != " "){
-                    throw Invalid_Matrix_Position();
+    std::vector<std::pair<int, int>> nuove_celle;
+    for (int i = -1; i < -2; i++){
+        for (int j = -1; j < -2; j++){
+            if (matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E"){
+                std::cout << "errore nel repair\n";
+                throw Invalid_Matrix_Position();
+            }
+        }
     }
+//gestione caso spostamento nave supporto orizzontale di una cella sola, verso dx o sx
+    if(ship.orizzontale==true && (matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] ||
+        matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == matrix[ship.RigaCentrale][ship.ColonnaCentrale-1])){
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S"){
+                matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));}
+                else{
+                    matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
+                }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S"){
+                matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));}
+                else{
+                    matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+                }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S"){
+                matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));}
+                else{
+                    matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+                }
+    }
+
+
+
     else{
-        std::vector<std::pair<int, int>> nuove_celle;
+        
         if(ship.orizzontale==true && matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] == " " &&
          matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] == " "){
             if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S"){
@@ -847,7 +887,9 @@ void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCe
 
 void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif const& tabella_difesa2){
     if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] != " "){
+                    std::cout << "errore nel moveandscan" << std::endl;
                     throw Invalid_Matrix_Position();
+                    
     }
     std::vector<std::pair<int, int>> nuova_cella;
     if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " "){
@@ -862,20 +904,22 @@ void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCent
     {
         for (int j = -2; j < 3; j++)
         {
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S"){
+            if(NuovaRigaCentrale+i>=0 && NuovaRigaCentrale+i<11 && NuovaColonnaCentrale+j>0 && NuovaColonnaCentrale+j<13){
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" ){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
             }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " s"){
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " s" ){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
             }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C"){
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" ){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
             }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " c"){
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " c" ){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
             }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E"){
+            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E" ){
                 tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+            }
             }
         }
         ship.RigaCentrale=NuovaRigaCentrale;
@@ -887,35 +931,35 @@ void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCent
 
 void Tab_dif::fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif& tabella_difesa2){
     if(tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " C" || tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c"){
-
-        if((tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C") ||
-                (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E") || (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S")){
-             tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " X";
-             if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C"){
-                 tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
-             }
-            if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S"){
-                tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
+            if((tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C") ||
+                    (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E") || (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S")){
+                    tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " X";
+                    if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C"){
+                        tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
+                        }
+                    if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S"){
+                        tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
+                        }   
+                    if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E"){
+                        tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
+                        }
+                   
             }
-            if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E"){
-                tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
-            }
-        }
         else{
              tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " O";
         }
-        
-        if(ship.orizzontale==true){
-            if(tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " c" &&
-             tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+2] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " c" &&
-                tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-2] == " c"){
-                    
-    
-            }
-        }
-    else{
-        throw Invalid_Matrix_Position();
-        }
     }
+        else{
+        std::cout << "errore nel fire" << std::endl;
+        throw Invalid_Matrix_Position();
+        
+        }
+}
+
+bool Tab_dif::isOccupied(int r, int c)
+{   bool occupied = false;
+    if(matrix[r][c] == " C" || matrix[r][c] == " c" || matrix[r][c] == " S" || matrix[r][c] == " s" || matrix[r][c] == " E" || matrix[r][c] == " e")
+        occupied = true;
+    return occupied;
 }
         
