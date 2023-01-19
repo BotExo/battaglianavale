@@ -1,0 +1,2 @@
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ar.exe qc libTabelle.a CMakeFiles/Tabelle.dir/Tabella_difesa.cpp.obj CMakeFiles/Tabelle.dir/Tabella_attacco.cpp.obj
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ranlib.exe libTabelle.a

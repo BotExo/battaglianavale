@@ -1,3 +1,4 @@
+//De Maria Giovanni
 #include <iostream>
 #include <vector>
 #include "Tabella_attacco.h"
@@ -7,7 +8,7 @@ Tab_att::Tab_att()
     int const colonne = 13;
     int const start_righe = 0, end_righe = 12;
     int const start_colonne = 1, end_colonne = 13;
-    std::string inizio = "";
+    std::string inizio = ""; //inizializzo la matrice con stringhe vuote
     matrix.resize(righe, std::vector<std::string>(colonne, inizio));
     matrix[0][0] = "A";
     matrix[1][0] = "B";
@@ -33,7 +34,7 @@ Tab_att::Tab_att()
     matrix[12][10] = "10";
     matrix[12][11] = "11";
     matrix[12][12] = "12";
-    for(int i = start_righe; i < end_righe; i++)
+    for(int i = start_righe; i < end_righe; i++) //inizializzo la matrice con spazi
     {   for(int j = start_colonne; j < end_colonne; j++)
             matrix[i][j] = " ";
     }
@@ -43,7 +44,7 @@ std::string Tab_att::getTab()
 {   int const righe = 13;   
     int const colonne = 13;
     std::string tabella = "";
-    for(int i = 0; i < righe; i ++)
+    for(int i = 0; i < righe; i ++) 
     {   for(int j = 0; j < colonne; j++)
         {   if(matrix[i][j] == " ")
                 tabella += matrix[i][j] + " " + " ";
@@ -52,13 +53,13 @@ std::string Tab_att::getTab()
         }
         tabella += "\n";
     }
-    return tabella;
+    return tabella; //ritorno la stringa con la griglia
 }
 
 void Tab_att::clearY()
 {   int const start_righe = 0, end_righe = 12;
     int const start_colonne = 1, end_colonne = 13;
-    for(int i = start_righe; i < end_righe; i++)
+    for(int i = start_righe; i < end_righe; i++) //cancello le Y
     {   for(int j = start_colonne; j < end_colonne; j++)
         {   if(matrix[i][j] == " Y")
                 matrix[i][j] = " ";
@@ -69,7 +70,7 @@ void Tab_att::clearY()
 void Tab_att::clearXO()
 {   int const start_righe = 0, end_righe = 12;
     int const start_colonne = 1, end_colonne = 13;
-    for(int i = start_righe; i < end_righe; i++)
+    for(int i = start_righe; i < end_righe; i++) //cancello le X e le O
     {   for(int j = start_colonne; j < end_colonne; j++)
         {   if(matrix[i][j] == " X" || matrix[i][j] == " O")
                 matrix[i][j] = " ";
@@ -80,10 +81,10 @@ void Tab_att::clearXO()
 void Tab_att::insert(int r, int c, std::string s)
 {   int const start_righe = 0, end_righe = 12;
     int const start_colonne = 1, end_colonne = 13;
-    if(r < start_righe || r > end_righe || c < start_colonne || c > end_colonne)
+    if(r < start_righe || r > end_righe || c < start_colonne || c > end_colonne) //se la posizione inserita e' invalida
         throw Invalid_Matrix_Position();
     std::string available_characters = "OYX";
-    if(available_characters.find(s) != std::string::npos)
+    if(available_characters.find(s) != std::string::npos) //se il carattere inserito e' valido
         matrix[r][c] = " " + s;
     else
         throw Invalid_Character();

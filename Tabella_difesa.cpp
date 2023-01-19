@@ -1,5 +1,4 @@
-
-
+//Carlo Bottaro
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -9,23 +8,23 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
-#include <list>
+
 #include "Tabella_difesa.h"
 #include "Ship.h"
 
-const static int ASCII_A = 65;
-const static int ASCII_a = 97;
+const static int ASCII_A = 65; 
+const static int ASCII_a = 97;  
 
-Coordinate::Coordinate(std::string r, int c)
+Coordinate::Coordinate(std::string r, int c)    
            : riga {r}, colonna {c}
-{   if(!isValid())
+{   if(!isValid()) //se la posizione non e' valida
         throw Invalid_coordinate();
 }
 
-bool Coordinate::isValid()
+bool Coordinate::isValid() 
 {   bool ok = true;
-    std::string available_characters = "abcdefghilmnABCDEFGHILMN";
-    if(available_characters.find(riga) != std::string::npos)
+    std::string available_characters = "abcdefghilmnABCDEFGHILMN"; 
+    if(available_characters.find(riga) != std::string::npos) //se la riga e' presente nella stringa
         ok = true;
     else
         return false;
@@ -42,7 +41,7 @@ int Coordinate::rigaInt(char r)
         riga_int -= ASCII_a;
     else
         riga_int -= ASCII_A;
-//aggiusto coordinate per l, m, n perchè prima di esse ci sarebbero i caratteri j, k
+//aggiusto coordinate per l, m, n perche' prima di esse ci sarebbero i caratteri j, k
         
     if(riga_int == 11 || riga_int == 12 ||riga_int == 13)
         riga_int -= 2;
@@ -54,9 +53,9 @@ Tab_dif::Tab_dif()
     int const colonne = 13;
     int const start_righe = 0, end_righe = 12;
     int const start_colonne = 1, end_colonne = 13;
-    std::string inizio = "";
-    matrix.resize(righe, std::vector<std::string>(colonne, inizio));
-    matrix[0][0] = "A";
+    std::string inizio = ""; 
+    matrix.resize(righe, std::vector<std::string>(colonne, inizio)); //inizializzo la matrice
+    matrix[0][0] = "A"; 
     matrix[1][0] = "B";
     matrix[2][0] = "C";
     matrix[3][0] = "D";
@@ -80,7 +79,7 @@ Tab_dif::Tab_dif()
     matrix[12][10] = "10";
     matrix[12][11] = "11";
     matrix[12][12] = "12";
-    for(int i = start_righe; i < end_righe; i++)
+    for(int i = start_righe; i < end_righe; i++) //riempio la matrice con spazi
     {   for(int j = start_colonne; j < end_colonne; j++)
             matrix[i][j] = " ";
     }
@@ -90,32 +89,32 @@ std::string Tab_dif::getTab()
 {   int const righe = 13;   
     int const colonne = 13;
     std::string tabella = "";
-    for(int i = 0; i < righe; i ++)
+    for(int i = 0; i < righe; i ++) 
     {   for(int j = 0; j < colonne; j++)
-        {   if(matrix[i][j] == " ")
-                tabella += matrix[i][j] + " " + " ";
+        {   if(matrix[i][j] == " ") 
+                tabella += matrix[i][j] + " " + " "; 
             else
-                tabella += matrix[i][j] + " ";
-        }
+                tabella += matrix[i][j] + " "; 
+        } 
         tabella += "\n";
     }
-    return tabella;
+    return tabella; //
 }
 
 void Tab_dif::Fill(int riga_poppa, int riga_prua, int colonna_poppa, int colonna_prua, std::string T, int dim)
-{   if(riga_poppa == riga_prua)
+{   if(riga_poppa == riga_prua) //se la nave e' orizzontale
     {   if(colonna_poppa - (dim-1) == colonna_prua)
         {   bool empty = true;
             for(int i = colonna_prua; i <= colonna_poppa; i++)
-            {   if(matrix[riga_poppa][i] != " ")
+            {   if(matrix[riga_poppa][i] != " ") 
                     throw Invalid_Matrix_Position();
             }
-            if(empty)
+            if(empty) 
             {   for(int i = colonna_prua; i <= colonna_poppa; i++)
                     matrix[riga_poppa][i] = " " + T;
             }
         }
-        else if(colonna_poppa + (dim-1) == colonna_prua)
+        else if(colonna_poppa + (dim-1) == colonna_prua) 
             {   bool empty = true;
                 for(int i = colonna_poppa; i <= colonna_prua; i++)
                 {   if(matrix[riga_poppa][i] != " ")
@@ -129,7 +128,7 @@ void Tab_dif::Fill(int riga_poppa, int riga_prua, int colonna_poppa, int colonna
             else
                 throw Invalid_Matrix_Position();
     }
-    else if(colonna_poppa == colonna_prua)
+    else if(colonna_poppa == colonna_prua) //se la nave e' verticale
         {   if(riga_poppa - (dim-1) == riga_prua)
             {   bool empty = true;
                 for(int i = riga_prua; i <= riga_poppa; i++)
@@ -163,10 +162,10 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
 {   const int coraz = 3;
     const int supp = 3;
     const int sott = 2;
-    const int dim_coraz = 5;
-    const int dim_supp = 3;
-    const int dim_sott = 1;
-    for(int i = 0; i < coraz; i++)
+    const int dim_coraz = 5, h_coraz = 5;
+    const int dim_supp = 3, h_supp = 3;
+    const int dim_sott = 1, h_sott = 1;
+    for(int i = 0; i < coraz; i++) //chiedo le coordinate per ogni corazzata
     {   std::string poppa = "", prua = "";
         std::string azione = "";
         std::cout << "Quali sono le coordinate per la corazzata " << i+1 <<"?\n";
@@ -187,7 +186,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         
-//controllo che le coordinate siano valide, cioè che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
+//controllo che le coordinate siano valide, cioe' che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
 
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "C", dim_coraz);
         
@@ -206,7 +205,6 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
             {   
                 celle_occupate_tmp.push_back(std::make_pair(i, j));
-                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
         }
         
@@ -229,9 +227,9 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
             c1.setRigaCentrale(riga_centrale);
             c1.setColonnaCentrale(colonna_centrale);
             c1.setCelleOccupate(celle_occupate_tmp);
+            c1.setHealth(h_coraz);
             if(riga_poppa_int == riga_prua_int)
             {   c1.setOrizzontale();
-                std::cout << "La corazzata 1 è piazzata\n";
             }
         } 
         else if(i == 1)
@@ -239,9 +237,10 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
                 c2.setRigaCentrale(riga_centrale);
                 c2.setColonnaCentrale(colonna_centrale);
                 c2.setCelleOccupate(celle_occupate_tmp);
+                c2.setHealth(h_coraz);
                 if(riga_poppa_int == riga_prua_int)
                 {   c2.setOrizzontale();
-                    std::cout << "La corazzata 2 è piazzata\n";
+
                 }
             } 
             else if(i == 2)
@@ -249,13 +248,13 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
                     c3.setRigaCentrale(riga_centrale);
                     c3.setColonnaCentrale(colonna_centrale);
                     c3.setCelleOccupate(celle_occupate_tmp);
+                    c3.setHealth(h_coraz);
                     if(riga_poppa_int == riga_prua_int)
                     {   c3.setOrizzontale();
-                        std::cout << "La corazzata 3 è piazzata\n";
                     }
                 }
     }
-    for(int i = 0; i < supp; i++)
+    for(int i = 0; i < supp; i++) //chiedo le coordinate delle navi di supporto
     {   std::string poppa = "", prua = "";
         std::string azione = "";
         std::cout << "Quali sono le coordinate per la nave di supporto " << i+1 <<"?\n";
@@ -279,7 +278,6 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
             {   
                 celle_occupate_tmp.push_back(std::make_pair(i, j));
-                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
         }
         
@@ -295,7 +293,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
             riga_centrale = (riga_poppa_int + riga_prua_int) / 2;
         }
         
-//creo le 3 navi di supporto (manca da implementare la f virtuale)
+//creo le 3 navi di supporto
         
         if(i == 0)
         {   s1.setType(ShipType::NAVE_SUPPORTO);
@@ -303,9 +301,9 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
             s1.setColonnaCentrale(colonna_centrale);
             s1.setCelleOccupate(celle_occupate_tmp);
             s1.SetSize(dim_supp);
+            s1.setHealth(h_supp);
             if(riga_poppa_int == riga_prua_int)
             {   s1.setOrizzontale();
-                std::cout << "La supporto 1 è piazzata\n";
             }
             
         }
@@ -315,9 +313,9 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
                 s2.setColonnaCentrale(colonna_centrale);
                 s2.setCelleOccupate(celle_occupate_tmp);
                 s2.SetSize(dim_supp);
+                s2.setHealth(h_supp);
                 if(riga_poppa_int == riga_prua_int)
                 {   s2.setOrizzontale();
-                    std::cout << "La supporto 2 è piazzata\n";
                 }
             }
             else if(i == 2)
@@ -326,14 +324,14 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
                     s3.setColonnaCentrale(colonna_centrale);
                     s3.setCelleOccupate(celle_occupate_tmp);
                     s3.SetSize(dim_supp);
+                    s3.setHealth(h_supp);
                     if(riga_poppa_int == riga_prua_int)
                     {   s3.setOrizzontale();
-                        std::cout << "La supporto 3 è piazzata\n";
                     }
                     
                 }
     }
-    for(int i = 0; i < sott; i++)
+    for(int i = 0; i < sott; i++) //chiedo le coordinate dei sottomarini di esplorazione
     {   std::string poppa = "", prua = "";
         std::string azione = "";
         std::cout << "Quali sono le coordinate per il sottomarino di esplorazione " << i+1 <<"?\n";
@@ -356,11 +354,10 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
             {   
-                celle_occupate_tmp.push_back(std::make_pair(i, j));
-                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+                celle_occupate_tmp.push_back(std::make_pair(i, j)); 
             }
         }              
-//creo i 2 sottomarini (manca da implementare la f virtuale)
+//creo i 2 sottomarini
 
         int riga_centrale = riga_poppa_int;
         int colonna_centrale = coord_poppa.getColonna();
@@ -370,9 +367,9 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
             e1.setColonnaCentrale(colonna_centrale);
             e1.setCelleOccupate(celle_occupate_tmp);
             e1.SetSize(dim_sott);
+            e1.setHealth(h_sott);
             if(riga_poppa_int == riga_prua_int)
             {   e1.setOrizzontale();
-                std::cout << "Il sottomarino 1 è piazzato\n";
             }
         }
         else if(i == 1)
@@ -381,30 +378,30 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
                 e2.setColonnaCentrale(colonna_centrale);
                 e2.setCelleOccupate(celle_occupate_tmp);
                 e2.SetSize(dim_sott);
+                e2.setHealth(h_sott);
                 if(riga_poppa_int == riga_prua_int)
                 {   e2.setOrizzontale();
-                    std::cout << "Il sottomarino 2 è piazzato\n";
                 }
             }
     }
 }
 
-void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2, std::ofstream& file)
+void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2, std::ofstream& file) //inizializza la tabella di gioco in automatico
 {   const int coraz = 3;
     const int supp = 3;
     const int sott = 2;
-    const int dim_coraz = 5;
-    const int dim_supp = 3;
-    const int dim_sott = 1;
+    const int dim_coraz = 5, h_coraz = 5;
+    const int dim_supp = 3, h_supp = 3;
+    const int dim_sott = 1, h_sott = 1;
     std::string possibili_righe = "ABCDEFGHILMN";
-    std::srand(std::time(nullptr));
+    std::srand(std::time(nullptr)); //uso il time per generare numeri casuali diversi ogni volta
     std::vector<std::string> celle_occupate = {""};
     for(int i = 0; i < coraz; i++)
     {   std::string poppa = "", prua = "";
         std::string azione = "";
         bool done = false;
         while(!done)
-        {   int random_riga = std::rand() % possibili_righe.length();
+        {   int random_riga = std::rand() % possibili_righe.length(); //genero una riga casuale
             int random_colonna = 0;
             do
             {   random_colonna = std::rand() % 13;
@@ -413,10 +410,10 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
             std::string colonna_poppa_string = std::to_string(random_colonna);
             poppa = possibili_righe[random_riga] + colonna_poppa_string;
             int random_orizz_vert = std::rand() % 2;
-            if(random_orizz_vert == 0 && random_colonna <= 8)
-            {   std::string colonna_prua_string = std::to_string(random_colonna+4);
-                prua = possibili_righe[random_riga] + colonna_prua_string;
-                for(int j = 0; j < celle_occupate.size(); j++)
+            if(random_orizz_vert == 0 && random_colonna <= 8) 
+            {   std::string colonna_prua_string = std::to_string(random_colonna+4); //genero la colonna della prua
+                prua = possibili_righe[random_riga] + colonna_prua_string; 
+                for(int j = 0; j < celle_occupate.size(); j++) //
                 {   std::string cella_da_verificare1 = poppa;
                     std::string colonna_2_string = std::to_string(random_colonna+1);
                     std::string cella_da_verificare2 = possibili_righe[random_riga] + colonna_2_string;
@@ -438,7 +435,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                     }
                 }
             }
-            else if(random_orizz_vert == 1 && random_riga <= 7)
+            else if(random_orizz_vert == 1 && random_riga <= 7) //se la nave e' verticale
                 {   std::string colonna_prua_string = colonna_poppa_string;
                     prua = possibili_righe[random_riga+4] + colonna_prua_string;
                     for(int j = 0; j < celle_occupate.size(); j++)
@@ -478,7 +475,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         
-//controllo che le coordinate siano valide, cioè che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
+//controllo che le coordinate siano valide, cioe' che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
 
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "C", dim_coraz);
         
@@ -489,8 +486,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
             {   
-                celle_occupate_tmp.push_back(std::make_pair(i, j));
-                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+                celle_occupate_tmp.push_back(std::make_pair(i, j)); 
             }
         }        
 //trovo le coordinate del centro della corazzata
@@ -512,10 +508,10 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
             c1.setRigaCentrale(riga_centrale);
             c1.setColonnaCentrale(colonna_centrale);
             c1.setCelleOccupate(celle_occupate_tmp);
+            c1.setHealth(h_coraz);
             if(riga_poppa_int == riga_prua_int)
             {   c1.setOrizzontale();
             }
-            std::cout << "La corazzata 1 è piazzata\n";
 
         } 
         else if(i == 1)
@@ -523,10 +519,10 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                 c2.setRigaCentrale(riga_centrale);
                 c2.setColonnaCentrale(colonna_centrale);
                 c2.setCelleOccupate(celle_occupate_tmp);
+                c2.setHealth(h_coraz);
                 if(riga_poppa_int == riga_prua_int)
                 {   c2.setOrizzontale();
                 }
-                std::cout << "La corazzata 2 è piazzata\n";
 
             } 
             else if(i == 2)
@@ -534,10 +530,10 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                     c3.setRigaCentrale(riga_centrale);
                     c3.setColonnaCentrale(colonna_centrale);
                     c3.setCelleOccupate(celle_occupate_tmp);
+                    c3.setHealth(h_coraz);
                     if(riga_poppa_int == riga_prua_int)
                     {   c3.setOrizzontale();
                     }
-                    std::cout << "La corazzata 3 è piazzata\n";
                 }
     }
     for(int i = 0; i < supp; i++)
@@ -610,7 +606,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         
-//controllo che le coordinate siano valide, cioè che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
+//controllo che le coordinate siano valide, cioe' che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
 
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "S", dim_supp);
         
@@ -622,7 +618,6 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
             {   
                 celle_occupate_tmp.push_back(std::make_pair(i, j));
-                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
             }
         }
 //trovo le coordinate del centro della nave di supporto
@@ -645,9 +640,9 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
             s1.setColonnaCentrale(colonna_centrale);
             s1.setCelleOccupate(celle_occupate_tmp);
             s1.SetSize(dim_supp);
+            s1.setHealth(h_supp);
             if(riga_poppa_int == riga_prua_int)
             {   s1.setOrizzontale();
-                std::cout << "La nave di supporto 1 è piazzata\n";
             }
             
         } 
@@ -657,9 +652,9 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                 s2.setColonnaCentrale(colonna_centrale);
                 s2.setCelleOccupate(celle_occupate_tmp);
                 s2.SetSize(dim_supp);
+                s2.setHealth(h_supp);
                 if(riga_poppa_int == riga_prua_int)
                 {   s2.setOrizzontale();
-                    std::cout << "La nave di supporto 2 è piazzata\n";
                 }
             } 
             else if(i == 2)
@@ -668,9 +663,9 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                     s3.setColonnaCentrale(colonna_centrale);
                     s3.setCelleOccupate(celle_occupate_tmp);
                     s3.SetSize(dim_supp);
+                    s3.setHealth(h_supp);
                     if(riga_poppa_int == riga_prua_int)
                     {   s3.setOrizzontale();
-                        std::cout << "La nave di supporto 3 è piazzata\n";
                     }
                 }
     }
@@ -715,7 +710,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         
-//controllo che le coordinate siano valide, cioè che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
+//controllo che le coordinate siano valide, cioe' che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
 
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "E", dim_sott);
         
@@ -726,11 +721,10 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
             {   
-                celle_occupate_tmp.push_back(std::make_pair(i, j));
-                std::cout << "Le celle occupate sono riga: " << i << " e colonna: " << j << "\n"; 
+                celle_occupate_tmp.push_back(std::make_pair(i, j)); 
             }
         }      
-//creo i 2 sottomarini (manca da implementare la f virtuale)
+//creo i 2 sottomarini 
 
         int riga_centrale = riga_poppa_int;
         int colonna_centrale = coord_poppa.getColonna();
@@ -740,9 +734,9 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
             e1.setColonnaCentrale(colonna_centrale);
             e1.setCelleOccupate(celle_occupate_tmp);
             e1.SetSize(dim_sott);
+            e1.setHealth(h_sott);
             if(riga_poppa_int == riga_prua_int)
             {   e1.setOrizzontale();
-                std::cout << "Il sottomarino 1 è piazzato\n";
             }
         }
         else if(i == 1)
@@ -751,11 +745,28 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                 e2.setColonnaCentrale(colonna_centrale);
                 e2.setCelleOccupate(celle_occupate_tmp);
                 e2.SetSize(dim_sott);
+                e2.setHealth(h_sott);
                 if(riga_poppa_int == riga_prua_int)
                 {   e2.setOrizzontale();
-                    std::cout << "Il sottomarino 2 è piazzato\n";
                 }
             }
+    }
+}
+
+void Tab_dif::delete_ship(Ship& s) // elimina la nave dalla griglia usando la size e le coordinate del centro
+{   if(s.GetNumHits() == 0) 
+    {   if(s.getOrizzontale())
+        {   for(int i = 0; i <= s.GetSize()/2; i++)
+            {   matrix[s.getRigaCentrale()][s.getColonnaCentrale()-i] = " ";
+                matrix[s.getRigaCentrale()][s.getColonnaCentrale()+i] = " ";
+            }
+        }
+        else
+        {   for(int i = 0; i <= s.GetSize()/2; i++)
+            {   matrix[s.getRigaCentrale()-i][s.getColonnaCentrale()] = " ";
+                matrix[s.getRigaCentrale()+i][s.getColonnaCentrale()] = " ";
+            }
+        }
     }
 }
 
@@ -768,245 +779,1052 @@ void Tab_dif::setMin(int r, int c)
         matrix[r][c] = " e";
 }
 
-void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa){
-    std::vector<std::pair<int, int>> nuove_celle;
-    for (int i = -1; i < -2; i++){
-        for (int j = -1; j < -2; j++){
-            if (matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" ||
-                matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E"){
-                std::cout << "errore nel repair\n";
+void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa, Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2)
+{   std::vector<std::pair<int, int>> nuove_celle;
+    for (int i = -1; i < -2; i++)
+    {   for (int j = -1; j < -2; j++)
+        {   if (matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E")
+            {  
                 throw Invalid_Matrix_Position();
             }
         }
     }
-//gestione caso spostamento nave supporto orizzontale di una cella sola, verso dx o sx
-    if(ship.orizzontale==true && (matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] ||
-        matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == matrix[ship.RigaCentrale][ship.ColonnaCentrale-1])){
-            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S"){
-                matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";
-                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));}
-                else{
-                    matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
-                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
-                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
-                }
-            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S"){
-                matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+//gestione caso spostamento nave supporto orizzontale di una cella sola, verso dx o sx, o verso l'alto o verso il basso
+    if(ship.orizzontale==true)
+    {   if((NuovaColonnaCentrale == ship.ColonnaCentrale+1 && NuovaRigaCentrale==ship.RigaCentrale) ||
+        (NuovaColonnaCentrale == ship.ColonnaCentrale-1 && NuovaRigaCentrale==ship.RigaCentrale))
+        {   if(ship.ColonnaCentrale-1 == NuovaColonnaCentrale) //spostamento della nave di una colonna a sx
+        {   
+            if( matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S")        {    matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
                 matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
-                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));}
-                else{
-                    matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+            }
+            else{ if (matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s")
+                {   matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
                     matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
                     nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
                 }
-            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S"){
-                matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+            }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S")
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
                 matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";
-                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));}
-                else{
-                    matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
-                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
-                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
-                }
-    }
-
-
-
-    else{
-        
-        if(ship.orizzontale==true && matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] == " " &&
-         matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] == " "){
-            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S"){
-                matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+            }
+            else
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+            }
+            if (matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S")
+            {   
                 matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";
-                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));}
-                else{
-                    matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
-                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
-                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
-                }
-            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S"){
-                matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
-                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));}
-                else{
-                    matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
-                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
-                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
-                }
-            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S"){
-                matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";
-                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));}
-                else{
-                    matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
-                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
-                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
+            }
+            else
+            {   
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-2));
             }
             for (int i = -1; i < 2; i++)
-            {
-                int vitaextra = 0;
-                if(matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i]==" c"){
-
-                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i] = " C";
-
-                } else if(matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i]==" s"){
-                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale+i] = " S";
+            {   if(c1.GetNumHits() < 5)
+                {   for(int j = 0; j <= c1.GetSize()/2; j++)
+                    {   if(c1.getOrizzontale())
+                        {   if((c1.getRigaCentrale() == NuovaRigaCentrale-1 && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale-1 && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale+1 && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale+1 && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()+k] = " C";
+                                    matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c1.getRigaCentrale()+j == NuovaRigaCentrale-1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()-j == NuovaRigaCentrale-1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()+j == NuovaRigaCentrale+1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()+k][c1.getColonnaCentrale()] = " C";
+                                    matrix[c1.getRigaCentrale()-k][c1.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
                 }
-                if(matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i]==" c"){
-                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i] = " C";
-                } else if(matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i]==" s"){
-                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale+i] = " S";
+                if(c2.GetNumHits() < 5)
+                {   for(int j = 0; j <= c2.GetSize()/2; j++)
+                    {   if(c2.getOrizzontale())
+                        {   if((c2.getRigaCentrale() == NuovaRigaCentrale-1 && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale-1 && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale+1 && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale+1 && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()+k] = " C";
+                                    matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c2.getRigaCentrale()+j == NuovaRigaCentrale-1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()-j == NuovaRigaCentrale-1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()+j == NuovaRigaCentrale+1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()+k][c2.getColonnaCentrale()] = " C";
+                                    matrix[c2.getRigaCentrale()-k][c2.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
                 }
-
+                if(c3.GetNumHits() < 5)
+                {   for(int j = 0; j <= c3.GetSize()/2; j++)
+                    {   if(c3.getOrizzontale())
+                        {   if((c3.getRigaCentrale() == NuovaRigaCentrale-1 && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale-1 && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale+1 && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale+1 && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()+k] = " C";
+                                    matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c3.getRigaCentrale()+j == NuovaRigaCentrale-1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()-j == NuovaRigaCentrale-1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()+j == NuovaRigaCentrale+1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()+k][c3.getColonnaCentrale()] = " C";
+                                    matrix[c3.getRigaCentrale()-k][c3.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s1.GetNumHits() < 3)
+                {   for(int j = 0; j <= s1.GetSize()/2; j++)
+                    {   if(s1.getOrizzontale())
+                        {   if((s1.getRigaCentrale() == NuovaRigaCentrale-1 && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale-1 && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale+1 && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale+1 && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()+k] = " S";
+                                    matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s1.getRigaCentrale()+j == NuovaRigaCentrale-1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()-j == NuovaRigaCentrale-1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()+j == NuovaRigaCentrale+1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()+k][s1.getColonnaCentrale()] = " S";
+                                    matrix[s1.getRigaCentrale()-k][s1.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s2.GetNumHits() < 3)
+                {   for(int j = 0; j <= s2.GetSize()/2; j++)
+                    {   if(s2.getOrizzontale())
+                        {   if((s2.getRigaCentrale() == NuovaRigaCentrale-1 && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale-1 && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale+1 && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale+1 && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()+k] = " S";
+                                    matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s2.getRigaCentrale()+j == NuovaRigaCentrale-1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()-j == NuovaRigaCentrale-1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()+j == NuovaRigaCentrale+1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()+k][s2.getColonnaCentrale()] = " S";
+                                    matrix[s2.getRigaCentrale()-k][s2.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            
+            ship.RigaCentrale = NuovaRigaCentrale;
+            ship.ColonnaCentrale = NuovaColonnaCentrale;
+            ship.celleoccupate = nuove_celle;
         }
-            else if (matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] == " " &&
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] == " "){
-            if(matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " S"){
-                matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
-                matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " S";}
-                else{
-                    matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
-                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " s";
-                }
-            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S"){
-                matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
-                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";}
-                else{
-                    matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+        if(ship.ColonnaCentrale+1 == NuovaColonnaCentrale) //spostamento della nave di una colonna a dx
+        {   
+            if( matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S")         {   matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+            }
+            else if (matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s")
+                {   matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
                     matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
                 }
-            if(matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " S"){
-                matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
-                matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " S";}
-                else{
-                    matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
-                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " s";
-            }
-
-        }
-        ship.RigaCentrale=NuovaRigaCentrale;
-        ship.ColonnaCentrale=NuovaColonnaCentrale;
-        ship.setCelleOccupate(nuove_celle);
-    }
             
-}
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S")
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
+            }
+            else
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
+            }
+            if (matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S")
+            {   
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+            }
+            else
+            {   
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+            }
+            for (int i = -1; i < 2; i++)
+            {   if(c1.GetNumHits() < 5)
+                {   for(int j = 0; j <= c1.GetSize()/2; j++)
+                    {   if(c1.getOrizzontale())
+                        {   if((c1.getRigaCentrale() == NuovaRigaCentrale-1 && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale-1 && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale+1 && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale+1 && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()+k] = " C";
+                                    matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c1.getRigaCentrale()+j == NuovaRigaCentrale-1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()-j == NuovaRigaCentrale-1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()+j == NuovaRigaCentrale+1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()+k][c1.getColonnaCentrale()] = " C";
+                                    matrix[c1.getRigaCentrale()-k][c1.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c2.GetNumHits() < 5)
+                {   for(int j = 0; j <= c2.GetSize()/2; j++)
+                    {   if(c2.getOrizzontale())
+                        {   if((c2.getRigaCentrale() == NuovaRigaCentrale-1 && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale-1 && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale+1 && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale+1 && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()+k] = " C";
+                                    matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c2.getRigaCentrale()+j == NuovaRigaCentrale-1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()-j == NuovaRigaCentrale-1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()+j == NuovaRigaCentrale+1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()+k][c2.getColonnaCentrale()] = " C";
+                                    matrix[c2.getRigaCentrale()-k][c2.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c3.GetNumHits() < 5)
+                {   for(int j = 0; j <= c3.GetSize()/2; j++)
+                    {   if(c3.getOrizzontale())
+                        {   if((c3.getRigaCentrale() == NuovaRigaCentrale-1 && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale-1 && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale+1 && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale+1 && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()+k] = " C";
+                                    matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c3.getRigaCentrale()+j == NuovaRigaCentrale-1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()-j == NuovaRigaCentrale-1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()+j == NuovaRigaCentrale+1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()+k][c3.getColonnaCentrale()] = " C";
+                                    matrix[c3.getRigaCentrale()-k][c3.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s1.GetNumHits() < 3)
+                {   for(int j = 0; j <= s1.GetSize()/2; j++)
+                    {   if(s1.getOrizzontale())
+                        {   if((s1.getRigaCentrale() == NuovaRigaCentrale-1 && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale-1 && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale+1 && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale+1 && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()+k] = " S";
+                                    matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s1.getRigaCentrale()+j == NuovaRigaCentrale-1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()-j == NuovaRigaCentrale-1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()+j == NuovaRigaCentrale+1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()+k][s1.getColonnaCentrale()] = " S";
+                                    matrix[s1.getRigaCentrale()-k][s1.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s2.GetNumHits() < 3)
+                {   for(int j = 0; j <= s2.GetSize()/2; j++)
+                    {   if(s2.getOrizzontale())
+                        {   if((s2.getRigaCentrale() == NuovaRigaCentrale-1 && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale-1 && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale+1 && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale+1 && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()+k] = " S";
+                                    matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s2.getRigaCentrale()+j == NuovaRigaCentrale-1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()-j == NuovaRigaCentrale-1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()+j == NuovaRigaCentrale+1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()+k][s2.getColonnaCentrale()] = " S";
+                                    matrix[s2.getRigaCentrale()-k][s2.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            ship.RigaCentrale = NuovaRigaCentrale;
+            ship.ColonnaCentrale = NuovaColonnaCentrale;
+            ship.celleoccupate = nuove_celle;
+            }
+        }
+    }
+    else
+    {   if((NuovaRigaCentrale == ship.RigaCentrale+1 && NuovaColonnaCentrale==ship.ColonnaCentrale) ||
+        (NuovaRigaCentrale == ship.RigaCentrale-1 && NuovaColonnaCentrale==ship.ColonnaCentrale))
+        {   if(ship.RigaCentrale-1 == NuovaRigaCentrale) //spostamento della nave di una riga in su
+            {   
+                if( matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S")
+                {   
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+                }
+                else{ if (matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s")
+                    {   
+                        matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                        nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+                    }
+                }
+                if(matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " S")
+                {   matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " S";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale+1, NuovaColonnaCentrale));
+                }
+                else
+                {   matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale+1, NuovaColonnaCentrale));
+                }
+                if (matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " S")
+                {   
+                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " S";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale-1, NuovaColonnaCentrale));
+                }
+                else
+                {   
+                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale-1, NuovaColonnaCentrale));
+                }
+                for (int i = -1; i < 2; i++)
+            {   if(c1.GetNumHits() < 5)
+                {   for(int j = 0; j <= c1.GetSize()/2; j++)
+                    {   if(c1.getOrizzontale())
+                        {   if((c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()+k] = " C";
+                                    matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c1.getRigaCentrale()+j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c1.getRigaCentrale()+j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()+k][c1.getColonnaCentrale()] = " C";
+                                    matrix[c1.getRigaCentrale()-k][c1.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c2.GetNumHits() < 5)
+                {   for(int j = 0; j <= c2.GetSize()/2; j++)
+                    {   if(c2.getOrizzontale())
+                        {   if((c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()+k] = " C";
+                                    matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c2.getRigaCentrale()+j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c2.getRigaCentrale()+j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()+k][c2.getColonnaCentrale()] = " C";
+                                    matrix[c2.getRigaCentrale()-k][c2.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c3.GetNumHits() < 5)
+                {   for(int j = 0; j <= c3.GetSize()/2; j++)
+                    {   if(c3.getOrizzontale())
+                        {   if((c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()+k] = " C";
+                                    matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c3.getRigaCentrale()+j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c3.getRigaCentrale()+j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()+k][c3.getColonnaCentrale()] = " C";
+                                    matrix[c3.getRigaCentrale()-k][c3.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s1.GetNumHits() < 3)
+                {   for(int j = 0; j <= s1.GetSize()/2; j++)
+                    {   if(s1.getOrizzontale())
+                        {   if((s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()+k] = " S";
+                                    matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s1.getRigaCentrale()+j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s1.getRigaCentrale()+j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale+1) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()+k][s1.getColonnaCentrale()] = " S";
+                                    matrix[s1.getRigaCentrale()-k][s1.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s2.GetNumHits() < 3)
+                {   for(int j = 0; j <= s2.GetSize()/2; j++)
+                    {   if(s2.getOrizzontale())
+                        {   if((s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()+k] = " S";
+                                    matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s2.getRigaCentrale()+j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s2.getRigaCentrale()+j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale+1) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()+k][s2.getColonnaCentrale()] = " S";
+                                    matrix[s2.getRigaCentrale()-k][s2.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            ship.RigaCentrale = NuovaRigaCentrale;
+            ship.ColonnaCentrale = NuovaColonnaCentrale;
+                ship.celleoccupate = nuove_celle;
+            }
+            if(ship.RigaCentrale+1 == NuovaRigaCentrale) //spostamento della nave di una riga in giu'
+            {   
+                if( matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S")
+                {   
+                    matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+                }
+                else
+                {   if (matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s")
+                    {   
+                        matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                        nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+                    }
+                }
+                if(matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " S")
+                {   matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " S";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale-1, NuovaColonnaCentrale));
+                }
+                else
+                {   matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
+                    matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale-1, NuovaColonnaCentrale));
+                }
+                if (matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " S")
+                {   
+                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " S";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale+1, NuovaColonnaCentrale));
+                }
+                else
+                {   
+                    matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " s";
+                    nuove_celle.push_back(std::make_pair(NuovaRigaCentrale+1, NuovaColonnaCentrale));
+                }
+                for (int i = -1; i < 2; i++)
+            {   if(c1.GetNumHits() < 5)
+                {   for(int j = 0; j <= c1.GetSize()/2; j++)
+                    {   if(c1.getOrizzontale())
+                        {   if((c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()+k] = " C";
+                                    matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c1.getRigaCentrale()+j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c1.getRigaCentrale()+j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()+k][c1.getColonnaCentrale()] = " C";
+                                    matrix[c1.getRigaCentrale()-k][c1.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c2.GetNumHits() < 5)
+                {   for(int j = 0; j <= c2.GetSize()/2; j++)
+                    {   if(c2.getOrizzontale())
+                        {   if((c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()+k] = " C";
+                                    matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c2.getRigaCentrale()+j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c2.getRigaCentrale()+j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()+k][c2.getColonnaCentrale()] = " C";
+                                    matrix[c2.getRigaCentrale()-k][c2.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c3.GetNumHits() < 5)
+                {   for(int j = 0; j <= c3.GetSize()/2; j++)
+                    {   if(c3.getOrizzontale())
+                        {   if((c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()+k] = " C";
+                                    matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c3.getRigaCentrale()+j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c3.getRigaCentrale()+j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()+k][c3.getColonnaCentrale()] = " C";
+                                    matrix[c3.getRigaCentrale()-k][c3.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s1.GetNumHits() < 3)
+                {   for(int j = 0; j <= s1.GetSize()/2; j++)
+                    {   if(s1.getOrizzontale())
+                        {   if((s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()+k] = " S";
+                                    matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s1.getRigaCentrale()+j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s1.getRigaCentrale()+j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale+1) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()+k][s1.getColonnaCentrale()] = " S";
+                                    matrix[s1.getRigaCentrale()-k][s1.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s2.GetNumHits() < 3)
+                {   for(int j = 0; j <= s2.GetSize()/2; j++)
+                    {   if(s2.getOrizzontale())
+                        {   if((s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()+k] = " S";
+                                    matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s2.getRigaCentrale()+j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s2.getRigaCentrale()+j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale+1) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()+k][s2.getColonnaCentrale()] = " S";
+                                    matrix[s2.getRigaCentrale()-k][s2.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            ship.RigaCentrale = NuovaRigaCentrale;
+            ship.ColonnaCentrale = NuovaColonnaCentrale;
+                ship.celleoccupate = nuove_celle;
+            }
+        }
+    }     //fine gestione caso movimento 1 cella in una direzione
+    if(ship.orizzontale==true && matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] == " " &&
+         matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] == " ")
+        {   if(matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " S")
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
+            }
+            else
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale-1] = " s";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale-1));
+            }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S")
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+            }
+            else
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
+            }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " S")
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " S";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+            }
+            else
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale+1] = " s";
+                nuove_celle.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale+1));
+            }
+            ship.RigaCentrale = NuovaRigaCentrale;
+            ship.ColonnaCentrale = NuovaColonnaCentrale;
+            for (int i = -1; i < 2; i++)
+            {   if(c1.GetNumHits() < 5)
+                {   for(int j = 0; j <= c1.GetSize()/2; j++)
+                    {   if(c1.getOrizzontale())
+                        {   if((c1.getRigaCentrale() == NuovaRigaCentrale-1 && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale-1 && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale+1 && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c1.getRigaCentrale() == NuovaRigaCentrale+1 && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()+k] = " C";
+                                    matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c1.getRigaCentrale()+j == NuovaRigaCentrale-1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()-j == NuovaRigaCentrale-1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()+j == NuovaRigaCentrale+1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+1 && c1.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()+k][c1.getColonnaCentrale()] = " C";
+                                    matrix[c1.getRigaCentrale()-k][c1.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c2.GetNumHits() < 5)
+                {   for(int j = 0; j <= c2.GetSize()/2; j++)
+                    {   if(c2.getOrizzontale())
+                        {   if((c2.getRigaCentrale() == NuovaRigaCentrale-1 && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale-1 && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale+1 && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c2.getRigaCentrale() == NuovaRigaCentrale+1 && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()+k] = " C";
+                                    matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c2.getRigaCentrale()+j == NuovaRigaCentrale-1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()-j == NuovaRigaCentrale-1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()+j == NuovaRigaCentrale+1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+1 && c2.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()+k][c2.getColonnaCentrale()] = " C";
+                                    matrix[c2.getRigaCentrale()-k][c2.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c3.GetNumHits() < 5)
+                {   for(int j = 0; j <= c3.GetSize()/2; j++)
+                    {   if(c3.getOrizzontale())
+                        {   if((c3.getRigaCentrale() == NuovaRigaCentrale-1 && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale-1 && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale+1 && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (c3.getRigaCentrale() == NuovaRigaCentrale+1 && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()+k] = " C";
+                                    matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c3.getRigaCentrale()+j == NuovaRigaCentrale-1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()-j == NuovaRigaCentrale-1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()+j == NuovaRigaCentrale+1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+1 && c3.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()+k][c3.getColonnaCentrale()] = " C";
+                                    matrix[c3.getRigaCentrale()-k][c3.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s1.GetNumHits() < 3)
+                {   for(int j = 0; j <= s1.GetSize()/2; j++)
+                    {   if(s1.getOrizzontale())
+                        {   if((s1.getRigaCentrale() == NuovaRigaCentrale-1 && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale-1 && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale+1 && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s1.getRigaCentrale() == NuovaRigaCentrale+1 && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()+k] = " S";
+                                    matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s1.getRigaCentrale()+j == NuovaRigaCentrale-1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()-j == NuovaRigaCentrale-1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()+j == NuovaRigaCentrale+1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+1 && s1.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()+k][s1.getColonnaCentrale()] = " S";
+                                    matrix[s1.getRigaCentrale()-k][s1.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s2.GetNumHits() < 3)
+                {   for(int j = 0; j <= s2.GetSize()/2; j++)
+                    {   if(s2.getOrizzontale())
+                        {   if((s2.getRigaCentrale() == NuovaRigaCentrale-1 && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale-1 && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale+1 && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+i) || (s2.getRigaCentrale() == NuovaRigaCentrale+1 && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+i))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()+k] = " S";
+                                    matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s2.getRigaCentrale()+j == NuovaRigaCentrale-1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()-j == NuovaRigaCentrale-1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()+j == NuovaRigaCentrale+1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+1 && s2.getColonnaCentrale() == NuovaColonnaCentrale+i))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()+k][s2.getColonnaCentrale()] = " S";
+                                    matrix[s2.getRigaCentrale()-k][s2.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] == " " &&
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " " && matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] == " ")
+        {   if(matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " S")
+            {   matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " S";
+            }
+            else
+            {   matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale-1][NuovaColonnaCentrale] = " s";
+            }
+            if(matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " S")
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " S";
+            }
+            else
+            {   matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " s";
+            }
+            if(matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " S")
+            {   matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " S";
+            }
+            else
+            {   matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+                matrix[NuovaRigaCentrale+1][NuovaColonnaCentrale] = " s";
+            }
+            ship.RigaCentrale = NuovaRigaCentrale;
+            ship.ColonnaCentrale = NuovaColonnaCentrale;
+            for (int i = -1; i < 2; i++)
+            {   if(c1.GetNumHits() < 5)
+                {   for(int j = 0; j <= c1.GetSize()/2; j++)
+                    {   if(c1.getOrizzontale())
+                        {   if((c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c1.getRigaCentrale() == NuovaRigaCentrale+i && c1.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()+k] = " C";
+                                    matrix[c1.getRigaCentrale()][c1.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c1.getRigaCentrale()+j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c1.getRigaCentrale()+j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c1.getRigaCentrale()-j == NuovaRigaCentrale+i && c1.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c1.setHealth(5);
+                                for(int k = 0; k <= c1.GetSize()/2; k++)
+                                {   matrix[c1.getRigaCentrale()+k][c1.getColonnaCentrale()] = " C";
+                                    matrix[c1.getRigaCentrale()-k][c1.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c2.GetNumHits() < 5)
+                {   for(int j = 0; j <= c2.GetSize()/2; j++)
+                    {   if(c2.getOrizzontale())
+                        {   if((c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c2.getRigaCentrale() == NuovaRigaCentrale+i && c2.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()+k] = " C";
+                                    matrix[c2.getRigaCentrale()][c2.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c2.getRigaCentrale()+j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c2.getRigaCentrale()+j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c2.getRigaCentrale()-j == NuovaRigaCentrale+i && c2.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c2.setHealth(5);
+                                for(int k = 0; k <= c2.GetSize()/2; k++)
+                                {   matrix[c2.getRigaCentrale()+k][c2.getColonnaCentrale()] = " C";
+                                    matrix[c2.getRigaCentrale()-k][c2.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(c3.GetNumHits() < 5)
+                {   for(int j = 0; j <= c3.GetSize()/2; j++)
+                    {   if(c3.getOrizzontale())
+                        {   if((c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (c3.getRigaCentrale() == NuovaRigaCentrale+i && c3.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()+k] = " C";
+                                    matrix[c3.getRigaCentrale()][c3.getColonnaCentrale()-k] = " C";
+                                }
+                            }
+                        }
+                        else
+                        {   if((c3.getRigaCentrale()+j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale-1) || (c3.getRigaCentrale()+j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale+1) || (c3.getRigaCentrale()-j == NuovaRigaCentrale+i && c3.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   c3.setHealth(5);
+                                for(int k = 0; k <= c3.GetSize()/2; k++)
+                                {   matrix[c3.getRigaCentrale()+k][c3.getColonnaCentrale()] = " C";
+                                    matrix[c3.getRigaCentrale()-k][c3.getColonnaCentrale()] = " C";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s1.GetNumHits() < 3)
+                {   for(int j = 0; j <= s1.GetSize()/2; j++)
+                    {   if(s1.getOrizzontale())
+                        {   if((s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (s1.getRigaCentrale() == NuovaRigaCentrale+i && s1.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()+k] = " S";
+                                    matrix[s1.getRigaCentrale()][s1.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s1.getRigaCentrale()+j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s1.getRigaCentrale()+j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale+1) || (s1.getRigaCentrale()-j == NuovaRigaCentrale+i && s1.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   s1.setHealth(3);
+                                for(int k = 0; k <= s1.GetSize()/2; k++)
+                                {   matrix[s1.getRigaCentrale()+k][s1.getColonnaCentrale()] = " S";
+                                    matrix[s1.getRigaCentrale()-k][s1.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+                if(s2.GetNumHits() < 3)
+                {   for(int j = 0; j <= s2.GetSize()/2; j++)
+                    {   if(s2.getOrizzontale())
+                        {   if((s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()+j == NuovaColonnaCentrale-1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()-j == NuovaColonnaCentrale-1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()+j == NuovaColonnaCentrale+1) || (s2.getRigaCentrale() == NuovaRigaCentrale+i && s2.getColonnaCentrale()-j == NuovaColonnaCentrale+1))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()+k] = " S";
+                                    matrix[s2.getRigaCentrale()][s2.getColonnaCentrale()-k] = " S";
+                                }
+                            }
+                        }
+                        else
+                        {   if((s2.getRigaCentrale()+j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale-1) || (s2.getRigaCentrale()+j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale+1) || (s2.getRigaCentrale()-j == NuovaRigaCentrale+i && s2.getColonnaCentrale() == NuovaColonnaCentrale+1))
+                            {   s2.setHealth(3);
+                                for(int k = 0; k <= s2.GetSize()/2; k++)
+                                {   matrix[s2.getRigaCentrale()+k][s2.getColonnaCentrale()] = " S";
+                                    matrix[s2.getRigaCentrale()-k][s2.getColonnaCentrale()] = " S";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+            ship.RigaCentrale = NuovaRigaCentrale;
+            ship.ColonnaCentrale = NuovaColonnaCentrale;
+            ship.setCelleOccupate(nuove_celle);
+}  
 
-void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif const& tabella_difesa2){
-    if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] != " "){
-                    std::cout << "errore nel moveandscan" << std::endl;
-                    throw Invalid_Matrix_Position();
-                    
+void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif const& tabella_difesa2)
+{   if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] != " ")
+    {
+        throw Invalid_Matrix_Position();      
     }
     std::vector<std::pair<int, int>> nuova_cella;
-    if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " "){
-        matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " E";
+    if(tabella_difesa.matrix[NuovaRigaCentrale][NuovaColonnaCentrale] == " ")
+    {   matrix[NuovaRigaCentrale][NuovaColonnaCentrale] = " E";
         matrix[ship.RigaCentrale][ship.ColonnaCentrale] = " ";
         nuova_cella.push_back(std::make_pair(NuovaRigaCentrale, NuovaColonnaCentrale));
-
-
     }
-    
-    for (int i = -2; i < 3; i++)
+    for (int i = -2; i < 3; i++) //controlla le celle nella tabella difesa nemica nel raggio di 5 celle e le segna come Y nella tabella d'attacco
     {
         for (int j = -2; j < 3; j++)
         {
-            if(NuovaRigaCentrale+i>=0 && NuovaRigaCentrale+i<11 && NuovaColonnaCentrale+j>0 && NuovaColonnaCentrale+j<13){
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" ){
-                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
-            }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " s" ){
-                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
-            }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" ){
-                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
-            }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " c" ){
-                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
-            }else
-            if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E" ){
-                tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
-            }
+            if(NuovaRigaCentrale+i>=0 && NuovaRigaCentrale+i<11 && NuovaColonnaCentrale+j>0 && NuovaColonnaCentrale+j<13)
+            {   if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" )
+                {   tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+                }
+                else if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " s" )
+                {   tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
+                }
+                else if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" )
+                {   tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+                }
+                else if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " c" )
+                {   tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " X";
+                }
+                else if(tabella_difesa2.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E" )
+                {   tabella_attacco.matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] = " Y";
+                }
             }
         }
-        
+        ship.RigaCentrale=NuovaRigaCentrale;
+        ship.ColonnaCentrale=NuovaColonnaCentrale;
+        ship.setCelleOccupate(nuova_cella);
     }
-    ship.RigaCentrale=NuovaRigaCentrale;
-    ship.ColonnaCentrale=NuovaColonnaCentrale;
-    ship.setCelleOccupate(nuova_cella);
+    
 }
 
-void Tab_dif::fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif& tabella_difesa2){
-    if(tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " C" || tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c"){
-            if((tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C") ||
-                    (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E") || (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S")){
-                    tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " X";
-                    if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C"){
-                        tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
-                        }
-                    if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S"){
-                        tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
-                        }   
-                    if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E"){
-                        tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
-                        }
-                   
+void Tab_dif::fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif& tabella_difesa2, Ship& avv1, Ship& avv2, Ship& avv3, Ship& avv4, Ship& avv5, Ship& avv6, Ship& avv7, Ship& avv8)
+{   if(tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " C" || tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c") //controllo che chi spara sia una corazzata
+    {   if((tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C") ||
+                    (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E") || (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S"))
+        {   tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " X"; //se la casella e' occupata da una nave, la segna come colpita
+            if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " C") //caso in cui colpisce una corazzata
+            {   tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
+                for(int i = 0; i <= avv1.GetSize()/2; i++)
+                {   if(avv1.getOrizzontale())
+                    {   if((avv1.getRigaCentrale() == RigaCasellaFuoco && avv1.getColonnaCentrale() + i == ColonnaCasellaFuoco) || (avv1.getRigaCentrale() == RigaCasellaFuoco && avv1.getColonnaCentrale() - i == ColonnaCasellaFuoco))
+                            avv1.TakeHit(); //se la casella e' occupata da una nave, la segna come colpita
+                    }
+                    else
+                    {   if((avv1.getRigaCentrale() + i == RigaCasellaFuoco && avv1.getColonnaCentrale() == ColonnaCasellaFuoco) || (avv1.getRigaCentrale() - i == RigaCasellaFuoco && avv1.getColonnaCentrale() == ColonnaCasellaFuoco))
+                            avv1.TakeHit();
+                    }
+                }
+                for(int i = 0; i <= avv2.GetSize()/2; i++)
+                {   if(avv2.getOrizzontale())
+                    {   if((avv2.getRigaCentrale() == RigaCasellaFuoco && avv2.getColonnaCentrale() + i == ColonnaCasellaFuoco) || (avv2.getRigaCentrale() == RigaCasellaFuoco && avv2.getColonnaCentrale() - i == ColonnaCasellaFuoco))
+                            avv2.TakeHit();
+                    }
+                    else
+                    {   if((avv2.getRigaCentrale() + i == RigaCasellaFuoco && avv2.getColonnaCentrale() == ColonnaCasellaFuoco) || (avv2.getRigaCentrale() - i == RigaCasellaFuoco && avv2.getColonnaCentrale() == ColonnaCasellaFuoco))
+                            avv2.TakeHit();
+                    }
+                }
+                for(int i = 0; i <= avv3.GetSize()/2; i++)
+                {   if(avv3.getOrizzontale())
+                    {   if((avv3.getRigaCentrale() == RigaCasellaFuoco && avv3.getColonnaCentrale() + i == ColonnaCasellaFuoco) || (avv3.getRigaCentrale() == RigaCasellaFuoco && avv3.getColonnaCentrale() - i == ColonnaCasellaFuoco))
+                            avv3.TakeHit();
+                    }
+                    else
+                    {   if((avv3.getRigaCentrale() + i == RigaCasellaFuoco && avv3.getColonnaCentrale() == ColonnaCasellaFuoco) || (avv3.getRigaCentrale() - i == RigaCasellaFuoco && avv3.getColonnaCentrale() == ColonnaCasellaFuoco))
+                            avv3.TakeHit();
+                    }
+                }
             }
-        else{
-             tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " O";
+            if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " S") //se spara ad una nave di supporto
+            {   tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco); //se la casella e' occupata da una nave, la segna come colpita
+                for(int i = 0; i <= avv4.GetSize()/2; i++) 
+                {   if(avv4.getOrizzontale()) 
+                    {   if((avv4.getRigaCentrale() == RigaCasellaFuoco && avv4.getColonnaCentrale() + i == ColonnaCasellaFuoco) || (avv4.getRigaCentrale() == RigaCasellaFuoco && avv4.getColonnaCentrale() - i == ColonnaCasellaFuoco)) 
+                            avv4.TakeHit();
+                    }
+                    else
+                    {   if((avv4.getRigaCentrale() + i == RigaCasellaFuoco && avv4.getColonnaCentrale() == ColonnaCasellaFuoco) || (avv4.getRigaCentrale() - i == RigaCasellaFuoco && avv4.getColonnaCentrale() == ColonnaCasellaFuoco))
+                            avv4.TakeHit();
+                    }
+                }
+                for(int i = 0; i <= avv5.GetSize()/2; i++)
+                {   if(avv5.getOrizzontale())
+                    {   if((avv5.getRigaCentrale() == RigaCasellaFuoco && avv5.getColonnaCentrale() + i == ColonnaCasellaFuoco) || (avv5.getRigaCentrale() == RigaCasellaFuoco && avv5.getColonnaCentrale() - i == ColonnaCasellaFuoco))
+                            avv5.TakeHit();
+                    }
+                    else
+                    {   if((avv5.getRigaCentrale() + i == RigaCasellaFuoco && avv5.getColonnaCentrale() == ColonnaCasellaFuoco) || (avv5.getRigaCentrale() - i == RigaCasellaFuoco && avv5.getColonnaCentrale() == ColonnaCasellaFuoco))
+                            avv5.TakeHit();
+                    }
+                }
+                for(int i = 0; i <= avv6.GetSize()/2; i++)
+                {   if(avv6.getOrizzontale())
+                    {   if((avv6.getRigaCentrale() == RigaCasellaFuoco && avv6.getColonnaCentrale() + i == ColonnaCasellaFuoco) || (avv6.getRigaCentrale() == RigaCasellaFuoco && avv6.getColonnaCentrale() - i == ColonnaCasellaFuoco))
+                            avv6.TakeHit();
+                    }
+                    else
+                    {   if((avv6.getRigaCentrale() + i == RigaCasellaFuoco && avv6.getColonnaCentrale() == ColonnaCasellaFuoco) || (avv6.getRigaCentrale() - i == RigaCasellaFuoco && avv6.getColonnaCentrale() == ColonnaCasellaFuoco))
+                            avv6.TakeHit();
+                    }
+                }
+            }   
+            if (tabella_difesa2.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] == " E") //se spara ad un sottomarino
+            {   tabella_difesa2.setMin(RigaCasellaFuoco, ColonnaCasellaFuoco);
+                if(RigaCasellaFuoco == avv7.getRigaCentrale())
+                    avv7.TakeHit();
+                if(RigaCasellaFuoco == avv8.getRigaCentrale())
+                    avv8.TakeHit();
+            }
+                   
+        }
+        else
+        {   tabella_attacco.matrix[RigaCasellaFuoco][ColonnaCasellaFuoco] = " O"; //se spara in acqua
         }
     }
-        else{
-        std::cout << "errore nel fire" << std::endl;
-        throw Invalid_Matrix_Position();
-        
+        else
+        { 
+            throw Invalid_Matrix_Position(); 
         }
 }
 
 bool Tab_dif::isOccupied(int r, int c)
 {   bool occupied = false;
-    if(matrix[r][c] == " C" || matrix[r][c] == " c" || matrix[r][c] == " S" || matrix[r][c] == " s" || matrix[r][c] == " E")
-        occupied = true;
+    //true se la casella e' occupata da una nave
+    if(matrix[r][c] == " C" || matrix[r][c] == " c" || matrix[r][c] == " S" || matrix[r][c] == " s" || matrix[r][c] == " E" || matrix[r][c] == " e"){
+        occupied = true;}
     return occupied;
-}
-        
-void Tab_dif::delete_ships(Ship& ship, Tab_dif& tabella_difesa, std::list<Ship> &lista_navi){
-    if (tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " e")
-    {
-        lista_navi.remove(ship);
-        tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
-    }
-    
-    if(ship.orizzontale==false){
-        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " c" &&
-            tabella_difesa.matrix[ship.RigaCentrale+2][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " c" &&
-            tabella_difesa.matrix[ship.RigaCentrale-2][ship.ColonnaCentrale] == " c"){
-            
-              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] =
-               tabella_difesa.matrix[ship.RigaCentrale-2][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale+2][ship.ColonnaCentrale] = " ";
-            lista_navi.remove(ship);
-            }
-        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s" && tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " s" &&
-            tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " s"){
-              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
-            lista_navi.remove(ship);        
-            }
-    }
-    else{
-        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " c" &&
-            tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+2] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " c" && 
-            tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-2] == " c"){
-              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-2] =
-               tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+2] = " ";
-            lista_navi.remove(ship);
-            }
-        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s" && tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " s" &&
-            tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " s"){
-              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
-            lista_navi.remove(ship);        
-        }
-  }
-}
+}    

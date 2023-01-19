@@ -1,0 +1,6 @@
+C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build/CMakeFiles/battaglia_navale.dir
+C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build/CMakeFiles/replay.dir
+C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build/CMakeFiles/Ships.dir
+C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build/CMakeFiles/Tabelle.dir
+C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build/CMakeFiles/edit_cache.dir
+C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build/CMakeFiles/rebuild_cache.dir

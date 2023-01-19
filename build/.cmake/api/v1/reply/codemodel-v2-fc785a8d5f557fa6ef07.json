@@ -1,0 +1,87 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Battaglia_navale",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Ships::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Ships-Debug-091696d9d4f10c09bd76.json",
+					"name" : "Ships",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Tabelle::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Tabelle-Debug-2c56de033ef50c01eee9.json",
+					"name" : "Tabelle",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "battaglia_navale::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-battaglia_navale-Debug-59a996043979e29cfb3f.json",
+					"name" : "battaglia_navale",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "replay::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-replay-Debug-7d219a1086621bc8d46f.json",
+					"name" : "replay",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build",
+		"source" : "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

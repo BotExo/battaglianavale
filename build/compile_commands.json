@@ -1,0 +1,27 @@
+[
+{
+  "directory": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\G__~1.EXE   -g -o CMakeFiles\\Ships.dir\\Ship.cpp.obj -c \"C:\\Users\\calum\\Desktop\\Uni Varie\\C++\\battaglia_navale_final\\Ship.cpp\"",
+  "file": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/Ship.cpp"
+},
+{
+  "directory": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\G__~1.EXE   -g -o CMakeFiles\\Tabelle.dir\\Tabella_difesa.cpp.obj -c \"C:\\Users\\calum\\Desktop\\Uni Varie\\C++\\battaglia_navale_final\\Tabella_difesa.cpp\"",
+  "file": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/Tabella_difesa.cpp"
+},
+{
+  "directory": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\G__~1.EXE   -g -o CMakeFiles\\Tabelle.dir\\Tabella_attacco.cpp.obj -c \"C:\\Users\\calum\\Desktop\\Uni Varie\\C++\\battaglia_navale_final\\Tabella_attacco.cpp\"",
+  "file": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/Tabella_attacco.cpp"
+},
+{
+  "directory": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\G__~1.EXE   -g -o CMakeFiles\\battaglia_navale.dir\\battaglia_navale.cpp.obj -c \"C:\\Users\\calum\\Desktop\\Uni Varie\\C++\\battaglia_navale_final\\battaglia_navale.cpp\"",
+  "file": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/battaglia_navale.cpp"
+},
+{
+  "directory": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\G__~1.EXE   -g -o CMakeFiles\\replay.dir\\replay.cpp.obj -c \"C:\\Users\\calum\\Desktop\\Uni Varie\\C++\\battaglia_navale_final\\replay.cpp\"",
+  "file": "C:/Users/calum/Desktop/Uni Varie/C++/battaglia_navale_final/replay.cpp"
+}
+]
