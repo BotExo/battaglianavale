@@ -5,6 +5,11 @@
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <string>
+#include <algorithm>
+#include <cctype>
+#include <list>
 #include "Tabella_difesa.h"
 #include "Ship.h"
 
@@ -154,7 +159,7 @@ void Tab_dif::Fill(int riga_poppa, int riga_prua, int colonna_poppa, int colonna
             throw Invalid_Matrix_Position();
 }
 
-void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2)
+void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2, std::ofstream& file)
 {   const int coraz = 3;
     const int supp = 3;
     const int sott = 2;
@@ -163,6 +168,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
     const int dim_sott = 1;
     for(int i = 0; i < coraz; i++)
     {   std::string poppa = "", prua = "";
+        std::string azione = "";
         std::cout << "Quali sono le coordinate per la corazzata " << i+1 <<"?\n";
         std::cin >> poppa;
         std::cin >> prua;
@@ -184,6 +190,13 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
 //controllo che le coordinate siano valide, cioè che la nave sia in verticale o orizzontale e che tutte le caselle che occuperebbe sono libere e "posiziono" le lettere
 
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "C", dim_coraz);
+        
+//stampo il posizionamento su file
+        
+        std::transform(poppa.begin(), poppa.end(), poppa.begin(), ::toupper);
+        std::transform(prua.begin(), prua.end(), prua.begin(), ::toupper);
+        azione = poppa + " " + prua;
+        file << azione << std::endl;
         
 //stampo le coordinate di prua e poppa della nave appena creata
         
@@ -244,6 +257,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
     }
     for(int i = 0; i < supp; i++)
     {   std::string poppa = "", prua = "";
+        std::string azione = "";
         std::cout << "Quali sono le coordinate per la nave di supporto " << i+1 <<"?\n";
         std::cin >> poppa;
         std::cin >> prua;
@@ -256,6 +270,10 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "S", dim_supp);
+        std::transform(poppa.begin(), poppa.end(), poppa.begin(), ::toupper);
+        std::transform(prua.begin(), prua.end(), prua.begin(), ::toupper);
+        azione = poppa + " " + prua;
+        file << azione << std::endl;
         std::vector<std::pair<int, int>> celle_occupate_tmp;
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
@@ -317,6 +335,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
     }
     for(int i = 0; i < sott; i++)
     {   std::string poppa = "", prua = "";
+        std::string azione = "";
         std::cout << "Quali sono le coordinate per il sottomarino di esplorazione " << i+1 <<"?\n";
         std::cin >> poppa;
         std::cin >> prua;
@@ -329,6 +348,10 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
         int riga_poppa_int = coord_poppa.rigaInt(coord_poppa.getRiga()[0]);
         int riga_prua_int = coord_prua.rigaInt(coord_prua.getRiga()[0]);
         Fill(riga_poppa_int, riga_prua_int, coord_poppa.getColonna(), coord_prua.getColonna(), "E", dim_sott);
+        std::transform(poppa.begin(), poppa.end(), poppa.begin(), ::toupper);
+        std::transform(prua.begin(), prua.end(), prua.begin(), ::toupper);
+        azione = poppa + " " + prua;
+        file << azione << std::endl;
         std::vector<std::pair<int, int>> celle_occupate_tmp;
         for(int i = riga_poppa_int; i <= riga_prua_int; i++)
         {   for(int j = colonna_poppa; j <= colonna_prua; j++)
@@ -366,7 +389,7 @@ void Tab_dif::initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3
     }
 }
 
-void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2)
+void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Ship& s3, Ship& e1, Ship& e2, std::ofstream& file)
 {   const int coraz = 3;
     const int supp = 3;
     const int sott = 2;
@@ -378,6 +401,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
     std::vector<std::string> celle_occupate = {""};
     for(int i = 0; i < coraz; i++)
     {   std::string poppa = "", prua = "";
+        std::string azione = "";
         bool done = false;
         while(!done)
         {   int random_riga = std::rand() % possibili_righe.length();
@@ -437,6 +461,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                     }
                 }
         }
+        azione = poppa + " " + prua;
+        file << azione << std::endl;
 
 //creo le gli oggetti coordinate di poppa e prua
 
@@ -516,6 +542,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
     }
     for(int i = 0; i < supp; i++)
     {   std::string poppa = "", prua = "";
+        std::string azione = "";
         bool done = false;
         while(!done)
         {   int random_riga = std::rand() % possibili_righe.length();
@@ -566,6 +593,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                     }
                 }
         }
+        azione = poppa + " " + prua;
+        file << azione << std::endl;
 
 //creo le gli oggetti coordinate di poppa e prua
 
@@ -647,6 +676,7 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
     }
     for(int i = 0; i < sott; i++)
     {   std::string poppa = "", prua = "";
+        std::string azione = "";
         bool done = false;
         while(!done)
         {   int random_riga = std::rand() % possibili_righe.length();
@@ -668,6 +698,8 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
                 }
             }
         }
+        azione = poppa + " " + prua;
+        file << azione << std::endl;
 
 //creo le gli oggetti coordinate di poppa e prua
 
@@ -727,28 +759,6 @@ void Tab_dif::auto_initTab(Ship& c1, Ship& c2, Ship& c3, Ship& s1, Ship& s2, Shi
     }
 }
 
-void Tab_dif::delete_ships(){
-    int const start_righe = 0, end_righe = 12, start_colonne = 1, end_colonne = 13;
-    for(int i = start_righe; i < end_righe; i++)
-    {   for(int j = start_colonne; j < end_colonne; j++)
-        {   if(matrix[i][j] == " e")
-                matrix[i][j] = " ";
-            if((j+4) < end_colonne && matrix[i][j] == " c" && matrix[i][j+1] == " c" && matrix[i][j+2] == " c" && matrix[i][j+3] == " c" && matrix[i][j+4] == " c")
-            {   matrix[i][j] = matrix[i][j+1] = matrix[i][j+2] = matrix[i][j+3] = matrix[i][j+4] = " ";
-            }
-            if((i+4) < end_righe && matrix[i][j] == " c" && matrix[i+1][j] == " c" && matrix[i+2][j] == " c" && matrix[i+3][j] == " c" && matrix[i+4][j] == " c")
-            {   matrix[i][j] = matrix[i+1][j] = matrix[i+2][j] = matrix[i+3][j] = matrix[i+4][j] = " ";
-            }
-            if((j+2) < end_colonne && matrix[i][j] == " s" && matrix[i][j+1] == " s" && matrix[i][j+2] == " s")
-            {   matrix[i][j] = matrix[i][j+1] = matrix[i][j+2] = " ";
-            }
-            if((i+2) < end_righe && matrix[i][j] == " s" && matrix[i+1][j] == " s" && matrix[i+2][j] == " s")
-            {   matrix[i][j] = matrix[i+1][j] = matrix[i+2][j] = " ";
-            }
-        }
-    }
-}
-
 void Tab_dif::setMin(int r, int c)
 {   if(matrix[r][c] == " C")
         matrix[r][c] = " c";
@@ -756,14 +766,14 @@ void Tab_dif::setMin(int r, int c)
         matrix[r][c] = " s";
     if(matrix[r][c] == " E")
         matrix[r][c] = " e";
-    delete_ships();
 }
 
 void Tab_dif::moveAndRepair(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCentrale, Tab_dif const& tabella_difesa){
     std::vector<std::pair<int, int>> nuove_celle;
     for (int i = -1; i < -2; i++){
         for (int j = -1; j < -2; j++){
-            if (matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E"){
+            if (matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " C" || matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " S" ||
+                matrix[NuovaRigaCentrale+i][NuovaColonnaCentrale+j] == " E"){
                 std::cout << "errore nel repair\n";
                 throw Invalid_Matrix_Position();
             }
@@ -922,11 +932,11 @@ void Tab_dif::moveAndScan(Ship& ship,int NuovaRigaCentrale, int NuovaColonnaCent
             }
             }
         }
-        ship.RigaCentrale=NuovaRigaCentrale;
-        ship.ColonnaCentrale=NuovaColonnaCentrale;
-        ship.setCelleOccupate(nuova_cella);
+        
     }
-    
+    ship.RigaCentrale=NuovaRigaCentrale;
+    ship.ColonnaCentrale=NuovaColonnaCentrale;
+    ship.setCelleOccupate(nuova_cella);
 }
 
 void Tab_dif::fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Tab_dif const& tabella_difesa, Tab_att& tabella_attacco, Tab_dif& tabella_difesa2){
@@ -958,8 +968,45 @@ void Tab_dif::fire(Ship& ship, int RigaCasellaFuoco, int ColonnaCasellaFuoco, Ta
 
 bool Tab_dif::isOccupied(int r, int c)
 {   bool occupied = false;
-    if(matrix[r][c] == " C" || matrix[r][c] == " c" || matrix[r][c] == " S" || matrix[r][c] == " s" || matrix[r][c] == " E" || matrix[r][c] == " e")
+    if(matrix[r][c] == " C" || matrix[r][c] == " c" || matrix[r][c] == " S" || matrix[r][c] == " s" || matrix[r][c] == " E")
         occupied = true;
     return occupied;
 }
         
+void Tab_dif::delete_ships(Ship& ship, Tab_dif& tabella_difesa, std::list<Ship> &lista_navi){
+    if (tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " e")
+    {
+        lista_navi.remove(ship);
+        tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+    }
+    
+    if(ship.orizzontale==false){
+        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " c" &&
+            tabella_difesa.matrix[ship.RigaCentrale+2][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " c" &&
+            tabella_difesa.matrix[ship.RigaCentrale-2][ship.ColonnaCentrale] == " c"){
+            
+              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] =
+               tabella_difesa.matrix[ship.RigaCentrale-2][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale+2][ship.ColonnaCentrale] = " ";
+            lista_navi.remove(ship);
+            }
+        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s" && tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " s" &&
+            tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " s"){
+              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] = " ";
+            lista_navi.remove(ship);        
+            }
+    }
+    else{
+        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] == " c" &&
+            tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+2] == " c" && tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] == " c" && 
+            tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-2] == " c"){
+              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-2] =
+               tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+2] = " ";
+            lista_navi.remove(ship);
+            }
+        if( tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] == " s" && tabella_difesa.matrix[ship.RigaCentrale+1][ship.ColonnaCentrale] == " s" &&
+            tabella_difesa.matrix[ship.RigaCentrale-1][ship.ColonnaCentrale] == " s"){
+              tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale-1] = tabella_difesa.matrix[ship.RigaCentrale][ship.ColonnaCentrale+1] = " ";
+            lista_navi.remove(ship);        
+        }
+  }
+}

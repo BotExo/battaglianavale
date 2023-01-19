@@ -17,8 +17,8 @@ int main()
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();
     std::cout << "\n";
-    d.initTab(c1, c2, c3, s1, s2, s3, e1, e2);
-    dpc.auto_initTab(nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2);
+    //d.initTab(c1, c2, c3, s1, s2, s3, e1, e2, file);
+    //dpc.auto_initTab(nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2);
     std::cout << "\n";
     std::cout << "Tabella di difesa:\n";
     std::cout << d.getTab();

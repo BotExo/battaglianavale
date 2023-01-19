@@ -15,8 +15,6 @@ class Ship {
     
     public:
         Ship();
-        //Ship(ShipType type, char colonnaInizio, int rigaInizio, char colonnaFine, int rigaFine, bool orizzontale, std::vector<int> celleoccupate);
-        //Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontale, std::vector<int> celleoccupate);
         int getColonnaInizio();
         int getRigaInizio();
         int getColonnaFine();
@@ -44,6 +42,9 @@ class Ship {
         ShipType type_;
         void printShipInfo();
         class Invalid_Matrix_Position{};
+        bool operator == (const Ship& s) const;
+        bool operator != (const Ship& s) const;
+        friend class Tab_dif;
 
 
     private:

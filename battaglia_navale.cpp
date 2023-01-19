@@ -1,9 +1,13 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
 #include <thread>
 #include <chrono>
+#include <algorithm>
+#include <cctype>
+#include <list>
 #include "Tabella_attacco.h"
 #include "Tabella_difesa.h"
 #include "Ship.h"
@@ -21,15 +25,34 @@ int main(int argc, char* argv[])
         Tab_dif d1, d2;
         Ship nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2;
         Ship C1, C2, C3, S1, S2, S3, E1, E2;
-        d2.auto_initTab(nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2);
+        std::ofstream file("prova.txt");
+        d1.initTab(C1, C2, C3, S1, S2, S3, E1, E2, file);
+        std::list<Ship> NaviPlayer;
+        NaviPlayer.push_back(C1);
+        NaviPlayer.push_back(C2);
+        NaviPlayer.push_back(C3);
+        NaviPlayer.push_back(S1);
+        NaviPlayer.push_back(S2);
+        NaviPlayer.push_back(S3);
+        NaviPlayer.push_back(E1);
+        NaviPlayer.push_back(E2);
         std::cout << "\n";
-        d1.initTab(C1, C2, C3, S1, S2, S3, E1, E2);
+        d2.auto_initTab(nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2, file);
+        std::list<Ship> NaviPC;
+        NaviPC.push_back(nave1);
+        NaviPC.push_back(nave2);
+        NaviPC.push_back(nave3);
+        NaviPC.push_back(naves1);
+        NaviPC.push_back(naves2);
+        NaviPC.push_back(naves3);
+        NaviPC.push_back(navesott1);
+        NaviPC.push_back(navesott2);
         std::cout << "\n";
         std::cout << "tabelle player:\n";
         std::cout << d1.getTab() << std::endl << a1.getTab() << std::endl;
         std::cout << "Tabelle pc:\n";
         std::cout << d2.getTab() << std::endl << a2.getTab() << std::endl;
-        const int turni = 30;
+        const int turni = 2;
         for(int i = 0; i < turni; i++)
         {   
             std::cout << "turno " << i+1 << std::endl;
@@ -37,10 +60,11 @@ int main(int argc, char* argv[])
         
 //azione player
             
+            std::string azione_player = "";
+            std::string selezione = "", bersaglio = "";
             bool finished = true;
             do
-            {   std::string selezione = "", bersaglio = "";
-                std::cout << "Qual è la prossima mossa?\n";
+            {   std::cout << "Qual è la prossima mossa?\n";
                 std::cin >> selezione;
                 std::cin >> bersaglio;
                 if(selezione == "XX" && selezione == bersaglio)
@@ -73,15 +97,21 @@ int main(int argc, char* argv[])
                 
                     else if(riga_selezione_int == C1.getRigaCentrale() && colonna_selezione == C1.getColonnaCentrale())
                     {   d1.fire(C1, riga_bersaglio_int, colonna_bersaglio, d1, a1, d2);
-                        d2.delete_ships();
+                        for (Ship  navepc : NaviPC) {
+                            d2.delete_ships(navepc, d2, NaviPC);
+                            }
                     }
                     else if(riga_selezione_int == C2.getRigaCentrale() && colonna_selezione == C2.getColonnaCentrale())
                     {   d1.fire(C2, riga_bersaglio_int, colonna_bersaglio, d1, a1, d2);
-                        d2.delete_ships();
+                        for (Ship  navepc : NaviPC) {
+                            d2.delete_ships(navepc, d2, NaviPC);
+                            }
                     }
                     else if(riga_selezione_int == C3.getRigaCentrale() && colonna_selezione == C3.getColonnaCentrale())
                     {   d1.fire(C3, riga_bersaglio_int, colonna_bersaglio, d1, a1, d2);
-                        d2.delete_ships();
+                        for (Ship  navepc : NaviPC) {
+                            d2.delete_ships(navepc, d2, NaviPC);
+                            }
                     }
                     else if(riga_selezione_int == S1.getRigaCentrale() && colonna_selezione == S1.getColonnaCentrale())
                     {   d1.moveAndRepair(S1, riga_bersaglio_int, colonna_bersaglio, d1);
@@ -101,11 +131,16 @@ int main(int argc, char* argv[])
                 }
             }
             while(!finished);
+            std::transform(selezione.begin(), selezione.end(), selezione.begin(), ::toupper);
+            std::transform(bersaglio.begin(), bersaglio.end(), bersaglio.begin(), ::toupper);
+            azione_player = selezione + " " + bersaglio;
+            file << azione_player << std::endl;
             
 //azione pc
            
            int riga_selezione = 0, colonna_selezione = 0, riga_bersaglio = 0, colonna_bersaglio = 0;
            std::string riga_selezione_string = "", colonna_selezione_string = "", riga_bersaglio_string = "", colonna_bersaglio_string  = "";
+           std::string azione_pc = "";
            std::vector<std::vector<int>> celle_centrali;
            int colonne_vector = 2, righe_vector = 8, inizio = 0;
            celle_centrali.resize(righe_vector, std::vector<int>(colonne_vector, inizio));
@@ -114,10 +149,12 @@ int main(int argc, char* argv[])
                     celle_centrali[i][j] = 0;
            }
            int dim_vector = 0;
-           if(!nave1.IsDestroyed())
+           for (Ship  navepc : NaviPC) {
+                            
+           if(navepc==nave1)
            {    celle_centrali[0][0] = nave1.getRigaCentrale();
                 celle_centrali[0][1] = nave1.getColonnaCentrale();
-                dim_vector = 1;
+                dim_vector++;
            }
            if(!nave2.IsDestroyed())
            {    celle_centrali[1][0] = nave2.getRigaCentrale();
@@ -153,6 +190,7 @@ int main(int argc, char* argv[])
            {    celle_centrali[7][0] = navesott2.getRigaCentrale();
                 celle_centrali[7][1] = navesott2.getColonnaCentrale();
                 dim_vector = 8;
+            }
            }
            bool ok = false;
            int random_ship;
@@ -171,15 +209,21 @@ int main(int argc, char* argv[])
                 colonna_bersaglio_string = std::to_string(colonna_bersaglio);
                 if(riga_selezione == nave1.getRigaCentrale() && colonna_selezione == nave1.getColonnaCentrale())
                 {   d2.fire(nave1, riga_bersaglio, colonna_bersaglio, d2, a2, d1);
-                    d1.delete_ships();
+                    for (Ship  naveplayer : NaviPlayer) {
+                            d1.delete_ships(naveplayer, d1, NaviPlayer);
+                            }
                 }
                 else if(riga_selezione == nave2.getRigaCentrale() && colonna_selezione == nave2.getColonnaCentrale())
                 {   d2.fire(nave2, riga_bersaglio, colonna_bersaglio, d2, a2, d1);
-                    d1.delete_ships();
+                    for (Ship  naveplayer : NaviPlayer) {
+                            d1.delete_ships(naveplayer, d1, NaviPlayer);
+                            }
                 }
                 else if(riga_selezione == nave3.getRigaCentrale() && colonna_selezione == nave3.getColonnaCentrale())
                 {   d2.fire(nave3, riga_bersaglio, colonna_bersaglio, d2, a2, d1);
-               d1.delete_ships();
+                    for (Ship  naveplayer : NaviPlayer) {
+                            d1.delete_ships(naveplayer, d1, NaviPlayer);
+                            }
                 }
                 else if(riga_selezione == naves1.getRigaCentrale() && colonna_selezione == naves1.getColonnaCentrale())
                 {   if(naves1.getOrizzontale())
@@ -261,26 +305,48 @@ int main(int argc, char* argv[])
                 }
            }
            while(!ok || colonna_bersaglio == 0);
-           
+           azione_pc = riga_selezione_string + colonna_selezione_string + " " + riga_bersaglio_string + colonna_bersaglio_string;
+           file << azione_pc << std::endl;
            
 //verifica azione
            
-           std::cout << "azione pc:\n" << riga_selezione_string << colonna_selezione_string << " " << riga_bersaglio_string << colonna_bersaglio_string << std::endl;
-            }
-            std::cout << "tabelle player:\n";
-            std::cout << d1.getTab() << std::endl << a1.getTab() << std::endl;
-            std::cout << "Tabelle pc:\n";
-            std::cout << d2.getTab() << std::endl << a2.getTab() << std::endl;
+           std::cout << "azione pc:\n" << azione_pc << std::endl;
+           }
+           std::cout << "tabelle player:\n";
+           std::cout << d1.getTab() << std::endl << a1.getTab() << std::endl;
+           std::cout << "Tabelle pc:\n";
+           std::cout << d2.getTab() << std::endl << a2.getTab() << std::endl;
+           file.close();
     }
-    else
+    //parte pc vs pc
+    else 
     {   Tab_att a1, a2;
         Tab_dif d1, d2;
         Ship nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2;
         Ship C1, C2, C3, S1, S2, S3, E1, E2;
-        d2.auto_initTab(nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2);
+        std::ofstream file("prova.txt");
+        d1.auto_initTab(C1, C2, C3, S1, S2, S3, E1, E2, file);
+        std::list<Ship> NaviPC1;
+        NaviPC1.push_back(C1);
+        NaviPC1.push_back(C2);
+        NaviPC1.push_back(C3);
+        NaviPC1.push_back(S1);
+        NaviPC1.push_back(S2);
+        NaviPC1.push_back(S3);
+        NaviPC1.push_back(E1);
+        NaviPC1.push_back(E2);
         std::cout << "\n";
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        d1.auto_initTab(C1, C2, C3, S1, S2, S3, E1, E2);
+        d2.auto_initTab(nave1, nave2, nave3, naves1, naves2, naves3, navesott1, navesott2, file);
+        std::list<Ship> NaviPC2;
+        NaviPC2.push_back(nave1);
+        NaviPC2.push_back(nave2);
+        NaviPC2.push_back(nave3);
+        NaviPC2.push_back(naves1);
+        NaviPC2.push_back(naves2);
+        NaviPC2.push_back(naves3);
+        NaviPC2.push_back(navesott1);
+        NaviPC2.push_back(navesott2);
         std::cout << "\n";
         std::cout << "tabelle pc1:\n";
         std::cout << d1.getTab() << std::endl << a1.getTab() << std::endl;
@@ -296,6 +362,7 @@ int main(int argc, char* argv[])
            
            int riga_selezione1 = 0, colonna_selezione1 = 0, riga_bersaglio1 = 0, colonna_bersaglio1 = 0;
            std::string riga_selezione_string1 = "", colonna_selezione_string1 = "", riga_bersaglio_string1 = "", colonna_bersaglio_string1  = "";
+           std::string azione_pc1 = "";
            std::vector<std::vector<int>> celle_centrali1;
            celle_centrali1.resize(righe_vector, std::vector<int>(colonne_vector, inizio));
            for(int i = 0; i < righe_vector; i++)
@@ -303,45 +370,47 @@ int main(int argc, char* argv[])
                     celle_centrali1[i][j] = 0;
            }
            int dim_vector1 = 0;
-           if(!C1.IsDestroyed())
+           for (Ship  navepc1 : NaviPC1) {
+           if(navepc1==C1)
            {    celle_centrali1[0][0] = C1.getRigaCentrale();
                 celle_centrali1[0][1] = C1.getColonnaCentrale();
-                dim_vector1 = 1;
+                dim_vector1++;
            }
-           if(!C2.IsDestroyed())
+           if(navepc1==C2)
            {    celle_centrali1[1][0] = C2.getRigaCentrale();
                 celle_centrali1[1][1] = C2.getColonnaCentrale();
-                dim_vector1 = 2;
+                dim_vector1++;
            }
-           if(!C3.IsDestroyed())
+           if(navepc1==C3)
            {    celle_centrali1[2][0] = C3.getRigaCentrale();
                 celle_centrali1[2][1] = C3.getColonnaCentrale();
-                dim_vector1 = 3;
+                dim_vector1++;
            }
-           if(!S1.IsDestroyed())
-           {    celle_centrali1[3][0] = S1.getRigaCentrale();
-                celle_centrali1[3][1] = S1.getColonnaCentrale();
-                dim_vector1 = 4;
-           }
-           if(!S2.IsDestroyed())
+            if(navepc1==S1)
+            {    celle_centrali1[3][0] = S1.getRigaCentrale();
+                 celle_centrali1[3][1] = S1.getColonnaCentrale();
+                 dim_vector1++;
+            }
+           if(navepc1==S2)
            {    celle_centrali1[4][0] = S2.getRigaCentrale();
                 celle_centrali1[4][1] = S2.getColonnaCentrale();
-                dim_vector1 = 5;
+                dim_vector1++;
            }
-           if(!S3.IsDestroyed())
-           {    celle_centrali1[5][0] = S3.getRigaCentrale();
-                celle_centrali1[5][1] = S3.getColonnaCentrale();
-                dim_vector1 = 6;
-           }
-           if(!E1.IsDestroyed())
-           {    celle_centrali1[6][0] = E1.getRigaCentrale();
-                celle_centrali1[6][1] = E1.getColonnaCentrale();
-                dim_vector1 = 7;
-           }
-           if(!E2.IsDestroyed())
-           {    celle_centrali1[7][0] = E2.getRigaCentrale();
+            if(navepc1==S3)
+              {    celle_centrali1[5][0] = S3.getRigaCentrale();
+                 celle_centrali1[5][1] = S3.getColonnaCentrale();
+                 dim_vector1++;
+            }
+            if(navepc1==E1)
+            {    celle_centrali1[6][0] = E1.getRigaCentrale();
+                 celle_centrali1[6][1] = E1.getColonnaCentrale();
+                 dim_vector1++;
+            }
+            if(navepc1==E2)
+            {   celle_centrali1[7][0] = E2.getRigaCentrale();
                 celle_centrali1[7][1] = E2.getColonnaCentrale();
-                dim_vector1 = 8;
+                dim_vector1++;
+            }
            }
            bool ok1 = false;
            int random_ship1;
@@ -358,18 +427,23 @@ int main(int argc, char* argv[])
                 colonna_selezione_string1 = std::to_string(colonna_selezione1);
                 riga_bersaglio_string1 = possibili_righe[riga_bersaglio1];
                 colonna_bersaglio_string1 = std::to_string(colonna_bersaglio1);
-                std::cout << "azione pc1:\n" << riga_selezione_string1 << colonna_selezione_string1 << " " << riga_bersaglio_string1 << colonna_bersaglio_string1 << std::endl;
                 if(riga_selezione1 == C1.getRigaCentrale() && colonna_selezione1 == C1.getColonnaCentrale())
                 {   d1.fire(C1, riga_bersaglio1, colonna_bersaglio1, d1, a1, d2);
-                    d2.delete_ships();
+                    for (Ship navepc2 : NaviPC2) {
+                            d2.delete_ships(navepc2, d2, NaviPC2);
+                            }
                 }
                 else if(riga_selezione1 == C2.getRigaCentrale() && colonna_selezione1 == C2.getColonnaCentrale())
                 {   d1.fire(C2, riga_bersaglio1, colonna_bersaglio1, d1, a1, d2);
-                    d2.delete_ships();
+                    for (Ship  navepc2 : NaviPC2) {
+                            d2.delete_ships(navepc2, d2, NaviPC2);
+                            }
                 }
                 else if(riga_selezione1 == C3.getRigaCentrale() && colonna_selezione1 == C3.getColonnaCentrale())
                 {   d1.fire(C3, riga_bersaglio1, colonna_bersaglio1, d1, a1, d2);
-                    d2.delete_ships();
+                    for (Ship  navepc2 : NaviPC2) {
+                            d2.delete_ships(navepc2, d2, NaviPC2);
+                            }
                 }
                 else if(riga_selezione1 == C1.getRigaCentrale() && colonna_selezione1 == C1.getColonnaCentrale())
                 {   if(C1.getOrizzontale())
@@ -451,6 +525,9 @@ int main(int argc, char* argv[])
                 }
            }
            while(!ok1 || colonna_bersaglio1 == 0);
+           std::cout << "azione pc1:\n" << riga_selezione_string1 << colonna_selezione_string1 << " " << riga_bersaglio_string1 << colonna_bersaglio_string1 << std::endl;
+           azione_pc1 = riga_selezione_string1 + colonna_selezione_string1 + " " + riga_bersaglio_string1 + colonna_bersaglio_string1;
+           file << azione_pc1 << std::endl;
            
            std::this_thread::sleep_for(std::chrono::seconds(1));
            
@@ -458,6 +535,7 @@ int main(int argc, char* argv[])
            
            int riga_selezione2 = 0, colonna_selezione2 = 0, riga_bersaglio2 = 0, colonna_bersaglio2 = 0;
            std::string riga_selezione_string2 = "", colonna_selezione_string2 = "", riga_bersaglio_string2 = "", colonna_bersaglio_string2  = "";
+           std::string azione_pc2 = "";
            std::vector<std::vector<int>> celle_centrali2;
            celle_centrali2.resize(righe_vector, std::vector<int>(colonne_vector, inizio));
            for(int i = 0; i < righe_vector; i++)
@@ -465,45 +543,47 @@ int main(int argc, char* argv[])
                     celle_centrali2[i][j] = 0;
            }
            int dim_vector2 = 0;
-           if(!nave1.IsDestroyed())
+           for (Ship navePC2 : NaviPC2){
+           if(navePC2==nave1)
            {    celle_centrali2[0][0] = nave1.getRigaCentrale();
                 celle_centrali2[0][1] = nave1.getColonnaCentrale();
-                dim_vector2 = 1;
+                dim_vector2++;
            }
-           if(!nave2.IsDestroyed())
+           if(navePC2==nave2)
            {    celle_centrali2[1][0] = nave2.getRigaCentrale();
                 celle_centrali2[1][1] = nave2.getColonnaCentrale();
-                dim_vector2 = 2;
+                dim_vector2++;
            }
-           if(!nave3.IsDestroyed())
+           if(navePC2==nave3)
            {    celle_centrali2[2][0] = nave3.getRigaCentrale();
                 celle_centrali2[2][1] = nave3.getColonnaCentrale();
-                dim_vector2 = 3;
+                dim_vector2++;
            }
-           if(!naves1.IsDestroyed())
+           if(navePC2==naves1)
            {    celle_centrali2[3][0] = naves1.getRigaCentrale();
                 celle_centrali2[3][1] = naves1.getColonnaCentrale();
-                dim_vector2 = 4;
+                dim_vector2++;
            }
-           if(!naves2.IsDestroyed())
+           if(navePC2==naves2)
            {    celle_centrali2[4][0] = naves2.getRigaCentrale();
                 celle_centrali2[4][1] = naves2.getColonnaCentrale();
-                dim_vector2 = 5;
+                dim_vector2++;
            }
-           if(!naves3.IsDestroyed())
+           if(navePC2==naves3)
            {    celle_centrali2[5][0] = naves3.getRigaCentrale();
                 celle_centrali2[5][1] = naves3.getColonnaCentrale();
-                dim_vector2 = 6;
+                dim_vector2++;
            }
-           if(!navesott1.IsDestroyed())
+           if(navePC2==navesott1)
            {    celle_centrali2[6][0] = navesott1.getRigaCentrale();
                 celle_centrali2[6][1] = navesott1.getColonnaCentrale();
-                dim_vector2 = 7;
+                dim_vector2++;
            }
-           if(!navesott2.IsDestroyed())
+           if(navePC2==navesott2)
            {    celle_centrali2[7][0] = navesott2.getRigaCentrale();
                 celle_centrali2[7][1] = navesott2.getColonnaCentrale();
-                dim_vector2 = 8;
+                dim_vector2++;
+           }
            }
            bool ok2 = false;
            int random_ship2;
@@ -520,18 +600,24 @@ int main(int argc, char* argv[])
                 colonna_selezione_string2 = std::to_string(colonna_selezione2);
                 riga_bersaglio_string2 = possibili_righe[riga_bersaglio2];
                 colonna_bersaglio_string2 = std::to_string(colonna_bersaglio2);
-                std::cout << "azione pc2:\n" << riga_selezione_string2 << colonna_selezione_string2 << " " << riga_bersaglio_string2 << colonna_bersaglio_string2 << std::endl;
+                
                 if(riga_selezione2 == nave1.getRigaCentrale() && colonna_selezione2 == nave1.getColonnaCentrale())
                 {   d2.fire(nave1, riga_bersaglio2, colonna_bersaglio2, d2, a2, d1);
-               d1.delete_ships();
+                        for (Ship  navepc1 : NaviPC1) {
+                            d1.delete_ships(navepc1, d1, NaviPC2);
+                            }
                 }
                 else if(riga_selezione2 == nave2.getRigaCentrale() && colonna_selezione2 == nave2.getColonnaCentrale())
                 {   d2.fire(nave2, riga_bersaglio2, colonna_bersaglio2, d2, a2, d1);
-               d1.delete_ships();
+                    for (Ship  navepc1 : NaviPC1) {
+                            d1.delete_ships(navepc1, d1, NaviPC2);
+                            }
                 }
                 else if(riga_selezione2 == nave3.getRigaCentrale() && colonna_selezione2 == nave3.getColonnaCentrale())
                 {   d2.fire(nave3, riga_bersaglio2, colonna_bersaglio2, d2, a2, d1);
-                    d1.delete_ships();
+                    for (Ship  navepc1 : NaviPC1) {
+                            d1.delete_ships(navepc1, d1, NaviPC2);
+                            }
                 }
                 else if(riga_selezione2 == naves1.getRigaCentrale() && colonna_selezione2 == naves1.getColonnaCentrale())
                 {   if(naves1.getOrizzontale())
@@ -613,6 +699,9 @@ int main(int argc, char* argv[])
                 }
            }
            while(!ok2 || colonna_bersaglio2 == 0);
+           std::cout << "azione pc2:\n" << riga_selezione_string2 << colonna_selezione_string2 << " " << riga_bersaglio_string2 << colonna_bersaglio_string2 << std::endl;
+           azione_pc2 = riga_selezione_string2 + colonna_selezione_string2 + " " + riga_bersaglio_string2 + colonna_bersaglio_string2;
+           file << azione_pc2 << std::endl;
 
 //verifica azione
            std::cout << "tabelle pc1:\n";

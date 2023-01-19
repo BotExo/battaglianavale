@@ -1,52 +1,6 @@
 #include "Ship.h"
 #include "Tabella_difesa.h"
 
-// Constructor
-/*Ship::Ship(ShipType tipo, char ColIn, int RigIn, char ColFin, int RigFin, bool orizzontale, std::vector<int> celle_occ) {
-  type_ = tipo;
-  switch (tipo) {
-    case ShipType::CORAZZATA:
-      size_=5;
-      health_ = 5;
-    case ShipType::NAVE_SUPPORTO:
-      size_=3;
-      health_ = 3;
-    case ShipType::SOTTOMARINO:
-      size_= 1;
-      health_ = 1;
-  }
-  this->colonnaInizio = ColIn;
-  this->rigaInizio = RigIn;
-  this->colonnaFine = ColFin;
-  this->rigaFine = RigFin;
-  if (ColIn == ColFin){
-    orizzontale = false;
-  }
-    else {
-    orizzontale = true;
-  }
-  celleoccupate;
-}
-
-Ship::Ship(ShipType type, int RigaCentrale, int ColonnaCentrale, bool orizzontale, std::vector<int> celle_occ){
-  type_ = type;
-  switch (type) {
-    case ShipType::CORAZZATA:
-      size_=5;
-      health_ = 5;
-    case ShipType::NAVE_SUPPORTO:
-      size_=3;
-      health_ = 3;
-    case ShipType::SOTTOMARINO:
-      size_= 1;
-      health_ = 1;
-  }
-  this->RigaCentrale = RigaCentrale;
-  this->ColonnaCentrale = ColonnaCentrale;
-  this->orizzontale = orizzontale;
-  celleoccupate;
-}*/
-
 Ship::Ship(){
   type_ = ShipType::CORAZZATA;
   this->size_=5;
@@ -174,3 +128,10 @@ void Ship::printShipInfo(){
     std::cout << "colonna centrale: " << ColonnaCentrale << "\n";
 }
 
+bool Ship::operator==(const Ship& other) const {
+  return (ColonnaCentrale == other.ColonnaCentrale && RigaCentrale == other.RigaCentrale);
+}
+
+bool Ship::operator!=(const Ship& other) const {
+  return (ColonnaCentrale != other.ColonnaCentrale || RigaCentrale != other.RigaCentrale);
+}
